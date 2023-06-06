@@ -1,0 +1,25 @@
+{
+    "name": "graphql-setup",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+      "test": "vitest --reporter verbose --coverage",
+      "start": "node index.js"
+    },
+    "author": "sami",
+    "license": "MIT",
+    "dependencies": {
+      "@graphql-tools/schema": "^10.0.0",
+      "arangojs": "^8.3.0",
+      "graphql": "^16.6.0",
+      "graphql-yoga": "3.9.1"
+    },
+    "devDependencies": {
+      "@vitest/coverage-c8": "^0.31.1",
+      "supertest": "^6.3.3",
+      "vitest": "^0.31.1"
+    }
+  }
+  
