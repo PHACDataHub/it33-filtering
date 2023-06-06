@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import GetData from './Components/GetData.js'
 
 function App() {
   return (
@@ -7,7 +8,7 @@ function App() {
       <header className="App-header">
        <h1>DSCO IT33 Filter</h1>
       </header>
-
+      <GetData/>
     </div>
   );
 }
