@@ -1,4 +1,4 @@
-.App{
+.App {
   max-width: 1250px;
   margin: 0 auto;
 }
@@ -9,7 +9,11 @@
   border-bottom: 3px solid white;
 }
 
-body{
-  background-color:#282c34;
+body {
+  background-color: #282c34;
   color: white;
+}
+
+.form-input {
+  display: inline;
 }
