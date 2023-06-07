@@ -57,7 +57,7 @@ export default function GetData() {
     <div>
       <h1>Get Data</h1>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-input">
           <label>ID:</label>
           <input type="text" value={id} onChange={handleInputChange} />
         </div>
