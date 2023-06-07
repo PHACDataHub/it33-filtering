@@ -10,8 +10,27 @@ const typeDefinitions = /* GraphQL */ `
     definition: String!
     family: String!
     id: String!
+    allocation: Allocation!
   }
-`
+
+  type Allocation {
+    department: Boolean!
+    itSecurityFunction: Boolean!
+    cioFunctionIncludingOps: Boolean!
+    physicalSecurityGroup: Boolean!
+    personnelSecurityGroup: Boolean!
+    programAndServiceDeliveryManagers: Boolean!
+    process: Boolean!
+    project: Boolean!
+    itProjects: Boolean!
+    facilityAndHardware: Boolean!
+    resourceAbstractionAndControlLayer: Boolean!
+    infrastructure: Boolean!
+    platform: Boolean!
+    application: Boolean!
+  }
+`;
+
 const db = new Database({
   url: "http://127.0.0.1:8529",
   databaseName: "itgs33",

@@ -8,30 +8,50 @@ const GET_QUERY = gql`
       definition
       family
       id
+      allocation {
+        department
+        itSecurityFunction
+        cioFunctionIncludingOps
+        physicalSecurityGroup
+        personnelSecurityGroup
+        programAndServiceDeliveryManagers
+        process
+        project
+        itProjects
+        facilityAndHardware
+        resourceAbstractionAndControlLayer
+        infrastructure
+        platform
+        application
+      }
     }
   }
 `;
 
 export default function GetData() {
-  const [id, setId] = useState(""); // State to store the ID value
+  const [id, setId] = useState("");
   const [getData, { loading, error, data }] = useLazyQuery(GET_QUERY);
 
   const handleInputChange = (event) => {
-    const inputValue = event.target.value; // Limit input to one character
-    setId(inputValue); // Update the ID value with the limited input
+    setId(event.target.value);
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent form submission
+    event.preventDefault();
     if (id) {
-      getData({ variables: { id } }); // Execute query only if ID is not empty
+      getData({ variables: { id } });
     }
   };
 
   if (loading) return "Loading...";
   if (error) return <pre>{error.message}</pre>;
 
-  const control = data?.control; // Access the control data from the response
+  const control = data?.control;
+  const trueAllocations = control
+    ? Object.entries(control.allocation)
+        .filter(([_, value]) => value === true)
+        .map(([key]) => key)
+    : [];
 
   return (
     <div>
@@ -51,6 +71,16 @@ export default function GetData() {
             <li>Definition: {control.definition}</li>
             <li>Family: {control.family}</li>
             <li>ID: {control.id}</li>
+            {trueAllocations.length > 0 && (
+              <li>
+                Allocations:
+                <ul>
+                  {trueAllocations.map((allocation) => (
+                    <li key={allocation}>{allocation}</li>
+                  ))}
+                </ul>
+              </li>
+            )}
           </ul>
         ) : (
           <p>No data available.</p>
