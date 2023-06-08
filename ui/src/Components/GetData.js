@@ -55,7 +55,7 @@ export default function GetData() {
 
   return (
     <div>
-      <h1>Get Data</h1>
+      <h2>Search by ID</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-input">
           <label>ID:</label>
