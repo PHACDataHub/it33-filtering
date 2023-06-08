@@ -82,7 +82,7 @@ export default function GetData() {
             )}
           </ul>
         ) : (
-          <p>No data available.</p>
+          <p>Search results will appear here</p>
         )}
       </div>
     </div>
