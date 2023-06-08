@@ -58,7 +58,6 @@ export default function GetData() {
       <h2>Search by ID</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-input">
-          <label>ID:</label>
           <input type="text" value={id} onChange={handleInputChange} />
         </div>
         <button type="submit">Submit</button>
