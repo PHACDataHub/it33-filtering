@@ -1,5 +1,6 @@
 import './App.css';
 import GetData from './Components/GetData.js'
+import GetByDrop from './Components/GetByDrop';
 
 function App() {
   return (
@@ -8,6 +9,8 @@ function App() {
        <h1>DSCO IT33 Filter</h1>
       </header>
       <GetData/>
+      <hr></hr>
+      <GetByDrop/>
     </div>
   );
 }

@@ -63,7 +63,7 @@ export default function GetData() {
         <button type="submit">Submit</button>
       </form>
       <div>
-        <h2>Result</h2>
+        <h3>Result</h3>
         {control ? (
           <ul>
             <li>Title: {control.title}</li>

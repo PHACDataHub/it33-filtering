@@ -4,7 +4,9 @@ import { Database, aql } from 'arangojs'
 const typeDefinitions = /* GraphQL */ `
   type Query {
     control(id:String!): Control
+    controlDrop: Control
   }
+  
   type Control {
     title: String!
     definition: String!
