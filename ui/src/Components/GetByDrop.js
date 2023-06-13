@@ -44,12 +44,19 @@ export default function GetData() {
         <h3>Results</h3>
         {controlDrop ? (
           <ul>
-            {controlDrop.map((controlDrop) => (
-              <li>
-                <p>Control: {controlDrop.control}</p>
-
-                <p>Title: {controlDrop.title}</p>
-                <p>Definition: {controlDrop.definition}</p>
+            {controlDrop.map((control) => (
+              <li key={control.id}>
+                <p>Control: {control.control}</p>
+                <p>Title: {control.title}</p>
+                <p>Definition: {control.definition}</p>
+                <h4>Allocation:</h4>
+                <ul>
+                  {Object.entries(control.allocation)
+                    .filter(([key, value]) => value === true)
+                    .map(([key]) => (
+                      <li key={key}>{key}</li>
+                    ))}
+                </ul>
               </li>
             ))}
           </ul>
@@ -59,4 +66,5 @@ export default function GetData() {
       </div>
     </div>
   );
+  
 }
