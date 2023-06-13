@@ -3,11 +3,12 @@ import { Database, aql } from 'arangojs'
 
 const typeDefinitions = /* GraphQL */ `
   type Query {
-    control(id:String!): Control
-    controlDrop: Control
+    control(id: String!): Control
+    controlDrop: [Control]
   }
   
   type Control {
+    control: String!
     title: String!
     definition: String!
     family: String!
@@ -49,11 +50,19 @@ const resolvers = {
       `);
       const control = await cursor.all();
       return control[0];
-    }
-  }
+    },
+    controlDrop: async () => {
+      const cursor = await db.query(aql`
+        FOR ctl IN controls
+        RETURN DISTINCT ctl
+      `);
+      const controls = await cursor.all();
+      return controls;
+    },
+  },
 };
 
 export const schema = makeExecutableSchema({
   resolvers: [resolvers],
-  typeDefs: [typeDefinitions]
-})
+  typeDefs: [typeDefinitions],
+});

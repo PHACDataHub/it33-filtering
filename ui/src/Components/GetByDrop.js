@@ -4,6 +4,7 @@ import { useLazyQuery, gql } from "@apollo/client";
 const GET_QUERY = gql`
   query {
     controlDrop {
+      control
       title
       definition
       family
@@ -44,26 +45,16 @@ export default function GetData() {
         {controlDrop ? (
           <ul>
             {controlDrop.map((controlDrop) => (
-              <li key={controlDrop.id}>
+              <li>
+                <p>Control: {controlDrop.control}</p>
+
                 <p>Title: {controlDrop.title}</p>
                 <p>Definition: {controlDrop.definition}</p>
-                <p>Family: {controlDrop.family}</p>
-                <p>ID: {controlDrop.id}</p>
-                <p>
-                  Allocations:
-                  <ul>
-                    {Object.entries(controlDrop.allocation)
-                      .filter(([_, value]) => value === true)
-                      .map(([key]) => (
-                        <li key={key}>{key}</li>
-                      ))}
-                  </ul>
-                </p>
               </li>
             ))}
           </ul>
         ) : (
-          <p>Search results will appear here</p>
+          <p>No results</p>
         )}
       </div>
     </div>
