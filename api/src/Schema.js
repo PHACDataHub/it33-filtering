@@ -4,7 +4,7 @@ import { Database, aql } from "arangojs";
 const typeDefinitions = /* GraphQL */ `
   type Query {
     control(id: String!): Control
-    controlDrop(allocation: String!): Control
+    controlDrop(allocation: String!): [Control]
     controlAll: [Control]
   }
 
@@ -33,6 +33,23 @@ const typeDefinitions = /* GraphQL */ `
     platform: Boolean!
     application: Boolean!
   }
+
+  input ControlFilterInput {
+    department: Boolean
+    itSecurityFunction: Boolean
+    cioFunctionIncludingOps: Boolean
+    physicalSecurityGroup: Boolean
+    personnelSecurityGroup: Boolean
+    programAndServiceDeliveryManagers: Boolean
+    process: Boolean
+    project: Boolean
+    itProjects: Boolean
+    facilityAndHardware: Boolean
+    resourceAbstractionAndControlLayer: Boolean
+    infrastructure: Boolean
+    platform: Boolean
+    application: Boolean
+  }
 `;
 
 const db = new Database({
@@ -57,13 +74,14 @@ const resolvers = {
         FOR ctl IN controls
         RETURN DISTINCT ctl
       `);
-      const controls = await cursor.all();
-      return controls;
+      const control = await cursor.all();
+      return control;
     },
-    controlDrop: async (_, { allocation }, context) => {
+    controlDrop: async (_, { allocation }) => {
+      // Apply the filter logic based on the "allocation" argument
       const cursor = await db.query(aql`
         FOR ctl IN controls
-        FILTER ctl.allocation == ${Boolean(allocation)}
+        FILTER ctl.allocation.${allocation} == true
         RETURN DISTINCT ctl
       `);
       const controls = await cursor.all();
