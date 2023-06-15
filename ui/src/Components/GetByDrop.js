@@ -53,7 +53,7 @@ export default function GetByDrop() {
 
   return (
     <div>
-      <h2>Search by Allocation</h2>
+      <h2>Filter by Allocation</h2>
       <button
         className={
           activeButton === "department"
@@ -208,23 +208,23 @@ export default function GetByDrop() {
       <div>
         <h3>Result</h3>
         {controlDrop ? (
-          <ul>
+          <div className="allocation-container">
             {controlDrop.map((control) => (
-              <li key={control.id}>
-                <p>{control.control}</p>
-                <p>{control.title}</p>
+              <div className="allocation-tile" key={control.id}>
+                <h3>{control.control}</h3>
+                <h3>{control.title}</h3>
                 <p>Definition: {control.definition}</p>
                 <h4>Allocation:</h4>
-                <ul>
+                <ul className="allocation-list">
                   {Object.entries(control.allocation)
                     .filter(([key, value]) => value === true)
                     .map(([key]) => (
                       <li key={key}>{key}</li>
                     ))}
                 </ul>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         ) : (
           <p>Search results will appear here</p>
         )}

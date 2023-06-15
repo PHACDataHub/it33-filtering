@@ -40,14 +40,14 @@ export default function GetAll() {
   return (
     <div>
       <button onClick={getData}>Fetch All Controls</button>
-      <div>
-        <h3>Results</h3>
+      <div className="allocation-container">
+        <h3>Result</h3>
         {controlAll ? (
-          <ul>
+          <div className="allocation-tile">
             {controlAll.map((control) => (
-              <li key={control.id}>
-                <p>Control: {control.control}</p>
-                <p>Title: {control.title}</p>
+              <div key={control.id}>
+                <h3>{control.control}</h3>
+                <h3>{control.title}</h3>
                 <p>Definition: {control.definition}</p>
                 <h4>Allocation:</h4>
                 <ul>
@@ -57,11 +57,11 @@ export default function GetAll() {
                       <li key={key}>{key}</li>
                     ))}
                 </ul>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         ) : (
-          <p>No results</p>
+          <p>Search results will appear here</p>
         )}
       </div>
     </div>

@@ -65,22 +65,21 @@ export default function GetData() {
       <div>
         <h3>Result</h3>
         {control ? (
-          <ul>
-            <li>Title: {control.title}</li>
-            <li>Definition: {control.definition}</li>
-            <li>Family: {control.family}</li>
-            <li>ID: {control.id}</li>
-            {trueAllocations.length > 0 && (
-              <li>
-                Allocations:
+          <div className="allocation-container">
+              <div className="allocation-tile" key={control.id}>
+                <h3>{control.control}</h3>
+                <h3>{control.title}</h3>
+                <p>Definition: {control.definition}</p>
+                <h4>Allocation:</h4>
                 <ul>
-                  {trueAllocations.map((allocation) => (
-                    <li key={allocation}>{allocation}</li>
-                  ))}
+                  {Object.entries(control.allocation)
+                    .filter(([key, value]) => value === true)
+                    .map(([key]) => (
+                      <li key={key}>{key}</li>
+                    ))}
                 </ul>
-              </li>
-            )}
-          </ul>
+              </div>
+          </div>
         ) : (
           <p>Search results will appear here</p>
         )}
