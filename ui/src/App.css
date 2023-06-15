@@ -17,3 +17,25 @@ body {
 .form-input {
   display: inline;
 }
+
+.filter-button{
+  margin: 5px;
+  padding: 10px;
+  border-radius: 15px;
+  border: none;
+}
+
+.filter-button:hover{
+  color: white;
+  background-color: black;
+}
+
+.filter-button-clicked{
+  color: white;
+  background-color: black;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 15px;
+  border: none;
+}
+
