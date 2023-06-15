@@ -28,6 +28,18 @@ describe("server", () => {
                 }
             })
         })
+    }),
+    describe("Allocation Test", () => {
+        it("Returns Control based on provided allocation", async () => {
+            const response = await request(app)
+                .post('/graphql')
+                .send({ query: ' {controlDrop(allocation: "department") {definition family id }}' })
+            expect(response.body).toEqual({
+                "data": {
+                   // to be filled in
+                }
+            })
+        })
     })
 })
 
