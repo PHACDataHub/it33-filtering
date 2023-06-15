@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { useLazyQuery, gql } from "@apollo/client";
 
 const GET_QUERY = gql`
-  query {
-    controlDrop {
-      control
+  query ($allocation: String!) {
+    control(allocation: $allocation) {
       title
       definition
       family
@@ -29,42 +28,63 @@ const GET_QUERY = gql`
   }
 `;
 
-export default function GetData() {
+export default function GetByDrop() {
+  const [allocation, setAllocation] = useState("");
   const [getData, { loading, error, data }] = useLazyQuery(GET_QUERY);
+
+  const handleInputChange = (event) => {
+    setAllocation(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (allocation) {
+      getData({ variables: { allocation } });
+    }
+  };
 
   if (loading) return "Loading...";
   if (error) return <pre>{error.message}</pre>;
 
-  const controlDrop = data?.controlDrop;
+  const control = data?.control;
+  const trueAllocations = control
+    ? Object.entries(control.allocation)
+        .filter(([_, value]) => value === true)
+        .map(([key]) => key)
+    : [];
 
   return (
     <div>
-      <button onClick={getData}>Fetch All Controls</button>
+      <h2>Search by Allocation</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-input">
+          <input type="text" value={allocation} onChange={handleInputChange} />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
       <div>
-        <h3>Results</h3>
-        {controlDrop ? (
+        <h3>Result</h3>
+        {control ? (
           <ul>
-            {controlDrop.map((control) => (
-              <li key={control.id}>
-                <p>Control: {control.control}</p>
-                <p>Title: {control.title}</p>
-                <p>Definition: {control.definition}</p>
-                <h4>Allocation:</h4>
+            <li>Title: {control.title}</li>
+            <li>Definition: {control.definition}</li>
+            <li>Family: {control.family}</li>
+            <li>ID: {control.id}</li>
+            {trueAllocations.length > 0 && (
+              <li>
+                Allocations:
                 <ul>
-                  {Object.entries(control.allocation)
-                    .filter(([key, value]) => value === true)
-                    .map(([key]) => (
-                      <li key={key}>{key}</li>
-                    ))}
+                  {trueAllocations.map((allocation) => (
+                    <li key={allocation}>{allocation}</li>
+                  ))}
                 </ul>
               </li>
-            ))}
+            )}
           </ul>
         ) : (
-          <p>No results</p>
+          <p>Search results will appear here</p>
         )}
       </div>
     </div>
   );
-  
 }

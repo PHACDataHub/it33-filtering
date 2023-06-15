@@ -1,12 +1,13 @@
-import { makeExecutableSchema } from '@graphql-tools/schema'
-import { Database, aql } from 'arangojs'
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { Database, aql } from "arangojs";
 
 const typeDefinitions = /* GraphQL */ `
   type Query {
     control(id: String!): Control
-    controlDrop: [Control]
+    controlDrop(allocation: String!): Control
+    controlAll: [Control]
   }
-  
+
   type Control {
     control: String!
     title: String!
@@ -51,9 +52,18 @@ const resolvers = {
       const control = await cursor.all();
       return control[0];
     },
-    controlDrop: async () => {
+    controlAll: async () => {
       const cursor = await db.query(aql`
         FOR ctl IN controls
+        RETURN DISTINCT ctl
+      `);
+      const controls = await cursor.all();
+      return controls;
+    },
+    controlDrop: async (_, { allocation }, context) => {
+      const cursor = await db.query(aql`
+        FOR ctl IN controls
+        FILTER ctl.allocation == ${Boolean(allocation)}
         RETURN DISTINCT ctl
       `);
       const controls = await cursor.all();
