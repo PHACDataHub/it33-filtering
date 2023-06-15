@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1686849375959" clover="3.2.0">
-  <project timestamp="1686849375959" name="All files">
+<coverage generated="1686849695725" clover="3.2.0">
+  <project timestamp="1686849695725" name="All files">
     <metrics statements="96" coveredstatements="90" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="2" elements="101" coveredelements="94" complexity="0" loc="96" ncloc="96" packages="1" files="1" classes="1"/>
     <file name="Schema.js" path="/Users/sami/it33-filtering/api/src/Schema.js">
       <metrics statements="96" coveredstatements="90" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="2"/>
