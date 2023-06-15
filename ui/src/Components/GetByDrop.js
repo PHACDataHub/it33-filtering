@@ -64,8 +64,8 @@ export default function GetByDrop() {
           <ul>
             {controlDrop.map((control) => (
               <li key={control.id}>
-                <p>Control: {control.control}</p>
-                <p>Title: {control.title}</p>
+                <p>{control.control}</p>
+                <p>{control.title}</p>
                 <p>Definition: {control.definition}</p>
                 <h4>Allocation:</h4>
                 <ul>
