@@ -23,21 +23,21 @@ body {
 .filter-button {
   margin: 5px;
   padding: 10px;
-  border-radius: 15px;
+  border-radius: 3px;
   border: none;
 }
 
 .filter-button:hover {
-  color: white;
-  background-color: black;
+  color: #252525;
+  background-color: #5e5e5e;
 }
 
 .filter-button-clicked {
-  color: white;
-  background-color: black;
+  color: #003f86;
+  background-color: #39a5ed;
   margin: 5px;
   padding: 10px;
-  border-radius: 15px;
+  border-radius: 3px;
   border: none;
 }
 
@@ -54,9 +54,10 @@ body {
 }
 
 .allocation-tile {
-  border: 5px solid green;
+  border: 2px solid #39a5ed;
   margin: 10px;
   min-width: 400px;
+  border-radius: 15px;
 }
 
 .allocation-tile li {
@@ -67,4 +68,13 @@ body {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.disclaimer{
+  margin-top: 25px;
+  background-color: #8ed2ff;
+  color:#003f86;
+  padding: 10px 15px;
+  max-width: 500px;
+  border-radius: 5px;
 }
