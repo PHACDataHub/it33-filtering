@@ -31,8 +31,9 @@ function App() {
         </svg>
         <span> This is a work in progress.</span>
       </div>
-      <GetData />
-      <hr></hr>
+      <div className="getData">
+        <GetData />
+      </div>
       <GetByDrop />
     </div>
   );

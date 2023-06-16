@@ -44,6 +44,9 @@ export default function GetByDrop() {
     }
 
     setActiveButton(clickedAllocation);
+
+    console.log(clickedAllocation)
+    console.log(activeButton)
   };
 
   if (loading) return "Loading...";
