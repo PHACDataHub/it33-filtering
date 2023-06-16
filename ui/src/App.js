@@ -1,16 +1,17 @@
-import './App.css';
-import GetData from './Components/GetData.js'
-import GetByDrop from './Components/GetByDrop';
-
+import "./App.css";
+import GetData from "./Components/GetData.js";
+import GetByDrop from "./Components/GetByDrop";
+import { Wordmark } from "./Components/Wordmark.tsx";
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-       <h1>DSCO IT33 Filter</h1>
+        <Wordmark textColor="white" />
+        <h1>DSCO IT33 Filter</h1>
       </header>
-      <GetData/>
+      <GetData />
       <hr></hr>
-      <GetByDrop/>
+      <GetByDrop />
     </div>
   );
 }

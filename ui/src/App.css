@@ -4,9 +4,11 @@
 }
 .App-header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   color: white;
   border-bottom: 3px solid white;
+  margin-top: 15px;
+  justify-content: space-between;
 }
 
 body {
