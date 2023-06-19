@@ -4,6 +4,7 @@ import { useLazyQuery, gql } from "@apollo/client";
 const GET_QUERY = gql`
   query($id: String!) {
     control(id: $id) {
+      control
       title
       definition
       family
@@ -71,7 +72,7 @@ export default function GetData() {
                 <h3>{control.title}</h3>
                 <p>Definition: {control.definition}</p>
                 <h4>Allocation:</h4>
-                <ul>
+                <ul className="allocation-list">
                   {Object.entries(control.allocation)
                     .filter(([key, value]) => value === true)
                     .map(([key]) => (
