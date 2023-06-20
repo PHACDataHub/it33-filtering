@@ -49,7 +49,7 @@ export default function GetAll() {
                 <h3>{control.control}</h3>
                 <h3>{control.title}</h3>
                 <p>Definition: {control.definition}</p>
-                <h4>Allocation:</h4>
+                <h4>All Allocations:</h4>
                 <ul>
                   {Object.entries(control.allocation)
                     .filter(([key, value]) => value === true)
