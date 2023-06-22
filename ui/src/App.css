@@ -31,6 +31,9 @@ body {
 }
 
 
+.btn-primary{
+  margin: 5px;
+}
 
 .allocation-container {
   display: flex;

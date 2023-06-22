@@ -61,7 +61,7 @@ export default function GetData() {
         <div className="form-input">
           <input type="text" value={id} onChange={handleInputChange} />
         </div>
-        <button type="submit">Submit</button>
+        <button className="btn btn-primary" type="submit">Search</button>
       </form>
       <div>
         <h3>Result</h3>
