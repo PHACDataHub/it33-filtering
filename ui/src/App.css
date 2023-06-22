@@ -5,15 +5,18 @@
 .App-header {
   display: flex;
   flex-direction: row;
-  color: white;
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid #26374A;
   margin-top: 15px;
   justify-content: space-between;
 }
 
+.App-header h1{
+  border-bottom: none;
+}
+
 body {
-  background-color: #282c34;
-  color: white;
+  background-color: #FFF;
+  color: #333;
 }
 
 .form-input {
@@ -26,8 +29,8 @@ body {
 }
 
 .btn-clicked {
-  background-color: #004ba1;
-  color:aliceblue
+  background-color: #26374A;
+  color:white
 }
 
 
@@ -48,7 +51,7 @@ body {
 }
 
 .allocation-tile {
-  border: 2px solid #39a5ed;
+  border: 2px solid #26374A;
   margin: 10px;
   min-width: 400px;
   border-radius: 15px;
@@ -74,5 +77,5 @@ body {
 }
 
 .getData{
-  border-bottom: 1px solid grey
+  border-bottom: 2px solid #26374A
 }

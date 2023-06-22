@@ -6,9 +6,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Wordmark textColor="white" />
+        <Wordmark textColor="black" />
         <h1>DSCO IT33 Filter</h1>
       </header>
+      
       <div className="disclaimer">
         <svg
           fill="#003f86"
