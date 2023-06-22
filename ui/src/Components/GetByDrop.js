@@ -51,98 +51,98 @@ export default function GetByDrop() {
     <div>
       <h2>Filter by Allocation</h2>
       <button
-        className={allocation === "department" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "department" ? "btn btn-clicked" : "btn btn-default"}
         value="department"
         onClick={handleClick}
       >
         Department
       </button>
       <button
-        className={allocation === "itSecurityFunction" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "itSecurityFunction" ? "btn btn-clicked" : "btn btn-default"}
         value="itSecurityFunction"
         onClick={handleClick}
       >
         IT Security Function
       </button>
       <button
-        className={allocation === "cioFunctionIncludingOps" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "cioFunctionIncludingOps" ? "btn btn-clicked" : "btn btn-default"}
         value="cioFunctionIncludingOps"
         onClick={handleClick}
       >
         CIO Function Including Ops
       </button>
       <button
-        className={allocation === "physicalSecurityGroup" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "physicalSecurityGroup" ? "btn btn-clicked" : "btn btn-default"}
         value="physicalSecurityGroup"
         onClick={handleClick}
       >
         Physical Security Group
       </button>
       <button
-        className={allocation === "personnelSecurityGroup" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "personnelSecurityGroup" ? "btn btn-clicked" : "btn btn-default"}
         value="personnelSecurityGroup"
         onClick={handleClick}
       >
         Personnel Security Group
       </button>
       <button
-        className={allocation === "programAndServiceDeliveryManagers" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "programAndServiceDeliveryManagers" ? "btn btn-clicked" : "btn btn-default"}
         value="programAndServiceDeliveryManagers"
         onClick={handleClick}
       >
         Program and Service Delivery Managers
       </button>
       <button
-        className={allocation === "process" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "process" ? "btn btn-clicked" : "btn btn-default"}
         value="process"
         onClick={handleClick}
       >
         Process
       </button>
       <button
-        className={allocation === "project" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "project" ? "btn btn-clicked" : "btn btn-default"}
         value="project"
         onClick={handleClick}
       >
         Project
       </button>
       <button
-        className={allocation === "itProjects" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "itProjects" ? "btn btn-clicked" : "btn btn-default"}
         value="itProjects"
         onClick={handleClick}
       >
         IT Projects
       </button>
       <button
-        className={allocation === "facilityAndHardware" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "facilityAndHardware" ? "btn btn-clicked" : "btn btn-default"}
         value="facilityAndHardware"
         onClick={handleClick}
       >
         Facility and Hardware
       </button>
       <button
-        className={allocation === "resourceAbstractionAndControlLayer" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "resourceAbstractionAndControlLayer" ? "btn btn-clicked" : "btn btn-default"}
         value="resourceAbstractionAndControlLayer"
         onClick={handleClick}
       >
         Resource Abstraction and Control Layer
       </button>
       <button
-        className={allocation === "infrastructure" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "infrastructure" ? "btn btn-clicked" : "btn btn-default"}
         value="infrastructure"
         onClick={handleClick}
       >
         Infrastructure
       </button>
       <button
-        className={allocation === "platform" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "platform" ? "btn btn-clicked" : "btn btn-default"}
         value="platform"
         onClick={handleClick}
       >
         Platform
       </button>
       <button
-        className={allocation === "application" ? "filter-button-clicked" : "filter-button"}
+        className={allocation === "application" ? "btn btn-clicked" : "btn btn-default"}
         value="application"
         onClick={handleClick}
       >

@@ -20,26 +20,17 @@ body {
   display: inline;
 }
 
-.filter-button {
+.btn-default {
   margin: 5px;
   padding: 10px;
-  border-radius: 3px;
-  border: none;
 }
 
-.filter-button:hover {
-  color: #252525;
-  background-color: #5e5e5e;
+.btn-clicked {
+  background-color: #004ba1;
+  color:aliceblue
 }
 
-.filter-button-clicked {
-  color: #003f86;
-  background-color: #39a5ed;
-  margin: 5px;
-  padding: 10px;
-  border-radius: 3px;
-  border: none;
-}
+
 
 .allocation-container {
   display: flex;
