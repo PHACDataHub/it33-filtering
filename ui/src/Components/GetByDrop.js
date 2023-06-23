@@ -150,7 +150,6 @@ export default function GetByDrop() {
       </button>
 
       <div>
-        <h3>Result</h3>
         {controlDrop ? (
           <div className="allocation-container">
             {controlDrop.map((control) => (
@@ -170,7 +169,7 @@ export default function GetByDrop() {
             ))}
           </div>
         ) : (
-          <p>Search results will appear here</p>
+          <p></p>
         )}
       </div>
     </div>

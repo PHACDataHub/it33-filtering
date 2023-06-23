@@ -64,7 +64,6 @@ export default function GetData() {
         <button className="btn btn-primary" type="submit">Search</button>
       </form>
       <div>
-        <h3>Result</h3>
         {control ? (
           <div className="allocation-container">
               <div className="allocation-tile" key={control.id}>
@@ -82,7 +81,7 @@ export default function GetData() {
               </div>
           </div>
         ) : (
-          <p>Search results will appear here</p>
+          <p></p>
         )}
       </div>
     </div>
