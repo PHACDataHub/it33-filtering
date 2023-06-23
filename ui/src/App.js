@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Wordmark textColor="black" />
-        <h1>DSCO IT33 Filter</h1>
+        <h1>DSCO ITSG33 Filter</h1>
       </header>
 
       <section class="alert alert-info">
