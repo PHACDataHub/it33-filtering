@@ -6,7 +6,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Wordmark textColor="black" />
         <h1>DSCO ITSG33 Filter</h1>
       </header>
 
@@ -19,6 +18,11 @@ function App() {
         <GetData />
       </div>
       <GetByDrop />
+      <footer>
+        <div className="footer-wm">
+          <Wordmark textColor="black" />
+        </div>
+      </footer>
     </div>
   );
 }
