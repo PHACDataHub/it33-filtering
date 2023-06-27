@@ -3,9 +3,24 @@ import { createYoga } from "graphql-yoga";
 import { createServer } from "http";
 import { schema } from "../Schema.js";
 import { describe, it, expect } from "vitest";
+import { Database, aql } from "arangojs";
+
+// test db connection
+const db = new Database({
+  url: "http://127.0.0.1:8529",
+  databaseName: "itgs33",
+  auth: { username: "root", password: "test123" },
+});
+
+const query = async function query(strings, ...vars) {
+  return db.query(aql(strings, ...vars), {
+    count: true,
+  });
+};
+
 
 // Create a GraphQL Yoga server
-const yoga = createYoga({ schema });
+const yoga = createYoga({ schema, context: { query } });
 const server = createServer(yoga);
 
 const app = server.listen();

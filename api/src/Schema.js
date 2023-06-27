@@ -1,5 +1,5 @@
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import { Database, aql } from "arangojs";
+
 
 const typeDefinitions = /* GraphQL */ `
   type Query {
@@ -52,38 +52,34 @@ const typeDefinitions = /* GraphQL */ `
   }
 `;
 
-const db = new Database({
-  url: "http://127.0.0.1:8529",
-  databaseName: "itgs33",
-  auth: { username: "root", password: "test123" },
-});
+
 
 const resolvers = {
   Query: {
-    control: async (_root, { id }) => {
-      const cursor = await db.query(aql`
+    control: async (_root, { id }, { query }) => {
+      const cursor = await query`
         FOR ctl IN controls
         FILTER ctl.control == ${id}
         RETURN ctl
-      `);
+      `;
       const control = await cursor.all();
       return control[0];
     },
-    controlAll: async () => {
-      const cursor = await db.query(aql`
+    controlAll: async ({ query }) => {
+      const cursor = await query`
         FOR ctl IN controls
         RETURN DISTINCT ctl
-      `);
+      `;
       const control = await cursor.all();
       return control;
     },
-    controlDrop: async (_, { allocation }) => {
+    controlDrop: async (_, { allocation }, { query }) => {
       // Apply the filter logic based on the "allocation" argument
-      const cursor = await db.query(aql`
+      const cursor = await query`
         FOR ctl IN controls
         FILTER ctl.allocation.${allocation} == true
         RETURN DISTINCT ctl
-      `);
+      `;
       const controls = await cursor.all();
       return controls;
     },

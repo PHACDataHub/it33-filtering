@@ -1,11 +1,29 @@
-import { schema } from './src/Schema.js'
-import { Server } from './src/Server.js'
+import { schema } from "./src/Schema.js";
+import { Server } from "./src/Server.js";
+import { Database, aql } from "arangojs";
+import 'dotenv-safe/config.js'
+
+const { DB_URL, DB_NAME, DB_USER, DB_PASS } = process.env;
+
+
+// actual db connection
+const db = new Database({
+  url: DB_URL,
+  databaseName: DB_NAME,
+  auth: { username: DB_USER, password: DB_PASS },
+});
+
+const query = async function query(strings, ...vars) {
+  return db.query(aql(strings, ...vars), {
+    count: true,
+  });
+};
 
 function index() {
-    const server = Server({ schema })
-    server.listen(4000, () => {
-        console.info('Server is running on http://localhost:4000/graphql')
-    })
+  const server = Server({ schema, context: { query } });
+  server.listen(4000, () => {
+    console.info("Server is running on http://localhost:4000/graphql");
+  });
 }
 
-index()
+index();
