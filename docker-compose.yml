@@ -3,12 +3,24 @@ services:
   arangodb:
     image: arangodb:3.11
     environment:
-      - ARANGO_ROOT_PASSWORD: test123
+      ARANGO_ROOT_PASSWORD: test123
     ports:
       - 8529:8529
   ui:
     build: ui
     ports:
       - 8080:8080
+  api:
+    build: api
+    environment:
+      DB_URL: http://arangodb:8529
+      DB_NAME: itgs33
+      DB_USER: root
+      DB_PASS: test123
+      PORT: 4000
+    ports:
+      - 4000:4000
+    
+    
     
     
