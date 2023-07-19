@@ -45,17 +45,13 @@ body {
   justify-content: space-between;
 }
 
-.allocation-container > div {
-  width: calc(50% - 20px); /* Adjust the width of each tile with padding */
-  padding: 10px;
-  box-sizing: border-box;
-}
 
 .allocation-tile {
-  border: 2px solid #26374a;
+  border: 1px solid #26374a;
   margin: 10px;
   min-width: 400px;
-  border-radius: 15px;
+  border-radius: 5px;
+  padding: 10px 15px;
 }
 
 .allocation-tile li {

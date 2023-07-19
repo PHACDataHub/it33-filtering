@@ -5,8 +5,18 @@ const typeDefinitions = /* GraphQL */ `
   type Query {
     control(id: String!): Control
     controlDrop(allocation: String!): [Control]
-    controlAll: [Control]
+    controlAll: [ControlAll!]!
   }
+
+  type ControlAll {
+    control: String!
+    title: String!
+    definition: String!
+    family: String!
+    id: String!
+    allocation: Allocation!
+  }
+  
 
   type Control {
     control: String!
@@ -16,6 +26,8 @@ const typeDefinitions = /* GraphQL */ `
     id: String!
     allocation: Allocation!
   }
+
+
 
   type Allocation {
     department: Boolean!
@@ -65,13 +77,14 @@ const resolvers = {
       const control = await cursor.all();
       return control[0];
     },
-    controlAll: async ({ query }) => {
+    controlAll: async (_root, _args, { query }) => {
+      // Fetch all controls without any specific filtering
       const cursor = await query`
         FOR ctl IN controls
-        RETURN DISTINCT ctl
+        RETURN ctl
       `;
-      const control = await cursor.all();
-      return control;
+      const controls = await cursor.all();
+      return controls;
     },
     controlDrop: async (_, { allocation }, { query }) => {
       // Apply the filter logic based on the "allocation" argument
