@@ -1,6 +1,7 @@
 import "./App.css";
 import GetData from "./Components/GetData.js";
 import GetByAllocation from "./Components/GetByAllocation";
+import GetAll from "./Components/GetAll";
 import { Wordmark } from "./Components/Wordmark.tsx";
 import { Phacsignature } from "./Components/PhacSig.tsx";
 function App() {
@@ -19,9 +20,9 @@ function App() {
       </section>
 
       <div className="getData">
-        <GetData />
+      <GetAll />
       </div>
-      <GetByAllocation />
+   
       <footer>
         <div className="footer-wm">
           <Wordmark textColor="black" />

@@ -5,19 +5,19 @@
 .App-header {
   max-width: 1250px;
   display: flex;
-  border-bottom: 2px solid #26374A;
+  border-bottom: 2px solid #26374a;
   margin-top: 15px;
   justify-content: space-between;
   margin-bottom: 10px;
   align-items: center;
 }
 
-.App-header h1{
+.App-header h1 {
   border-bottom: none;
 }
 
 body {
-  background-color: #FFF;
+  background-color: #fff;
   color: #333;
 }
 
@@ -31,12 +31,11 @@ body {
 }
 
 .btn-clicked {
-  background-color: #26374A;
-  color:white
+  background-color: #26374a;
+  color: white;
 }
 
-
-.btn-primary{
+.btn-primary {
   margin: 5px;
 }
 
@@ -53,7 +52,7 @@ body {
 }
 
 .allocation-tile {
-  border: 2px solid #26374A;
+  border: 2px solid #26374a;
   margin: 10px;
   min-width: 400px;
   border-radius: 15px;
@@ -63,36 +62,42 @@ body {
   list-style: none;
 }
 
-.allocation-list{
+.allocation-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.disclaimer{
+.disclaimer {
   margin-top: 25px;
   background-color: #8ed2ff;
-  color:#003f86;
+  color: #003f86;
   padding: 10px 15px;
   max-width: 500px;
   border-radius: 5px;
 }
 
-.getData{
-  border-bottom: 2px solid #26374A
+.filters {
+  display: flex;
 }
 
-footer{
+.filters > div {
+  padding: 20px;
+  flex: 1; /* This will make both sections take equal space */
+  max-width: 50%; /* You can adjust the width of each section */
+}
+
+footer {
   margin-top: 200px;
   max-width: 1250px;
-  border-top: #26374A solid 2px;
+  border-top: #26374a solid 2px;
 }
 
-.footer-wm{
+.footer-wm {
   padding: 25px 5px;
   text-align: right;
 }
 
-.header-sig{
+.header-sig {
   margin-left: -15px;
 }
