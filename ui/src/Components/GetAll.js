@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useLazyQuery, gql } from "@apollo/client";
+import React from "react";
+import { useQuery, gql } from "@apollo/client";
 
-const GET_QUERY = gql`
+const GET_ALL_CONTROLS = gql`
   query {
     controlAll {
       control
@@ -29,25 +29,23 @@ const GET_QUERY = gql`
   }
 `;
 
-export default function GetAll() {
-  const [getData, { loading, error, data }] = useLazyQuery(GET_QUERY);
-
-  useEffect(() => {
-    // Fetch data on component mount
-    getData();
-  }, []);
+export default function GetAllControls() {
+  const { loading, error, data } = useQuery(GET_ALL_CONTROLS);
 
   if (loading) return "Loading...";
   if (error) return <pre>{error.message}</pre>;
 
   const controlAll = data?.controlAll;
+  const numResults = controlAll ? controlAll.length : 0;
 
   return (
-      <div >
+    <div>
+      <div className="allocation-container">
+        <p>{numResults} results</p>
         {controlAll ? (
-          <div className="allocation-container">
+          <div className="allocation-tile">
             {controlAll.map((control) => (
-              <div className="allocation-tile" key={control.id}>
+              <div key={control.id}>
                 <h3>{control.control}</h3>
                 <h3>{control.title}</h3>
                 <p>Definition: {control.definition}</p>
@@ -66,5 +64,6 @@ export default function GetAll() {
           <p>Search results will appear here</p>
         )}
       </div>
+    </div>
   );
 }
