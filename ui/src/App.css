@@ -39,12 +39,6 @@ body {
   margin: 5px;
 }
 
-.allocation-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
 
 .allocation-tile {
   border: 1px solid #26374a;
@@ -62,6 +56,9 @@ body {
 
 .allocation-tile li {
   list-style: none;
+  padding: 0;
+  margin-left: -40px;
+
 }
 
 .disclaimer {
@@ -72,6 +69,8 @@ body {
   max-width: 500px;
   border-radius: 5px;
 }
+
+
 
 .allocation-title{
   padding: 10px 15px;
