@@ -29,7 +29,7 @@ const GET_QUERY = gql`
   }
 `;
 
-export default function GetByDrop() {
+export default function GetByAllocation() {
   const [allocation, setAllocation] = useState("");
   const [getData, { loading, error, data }] = useLazyQuery(GET_QUERY, {
     fetchPolicy: "cache-and-network",

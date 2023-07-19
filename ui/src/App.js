@@ -1,6 +1,6 @@
 import "./App.css";
 import GetData from "./Components/GetData.js";
-import GetByDrop from "./Components/GetByDrop";
+import GetByAllocation from "./Components/GetByAllocation";
 import { Wordmark } from "./Components/Wordmark.tsx";
 import { Phacsignature } from "./Components/PhacSig.tsx";
 function App() {
@@ -21,7 +21,7 @@ function App() {
       <div className="getData">
         <GetData />
       </div>
-      <GetByDrop />
+      <GetByAllocation />
       <footer>
         <div className="footer-wm">
           <Wordmark textColor="black" />
