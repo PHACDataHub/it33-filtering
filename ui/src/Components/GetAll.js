@@ -41,7 +41,7 @@ export default function GetAllControls() {
   return (
     <div>
       <div className="allocation-container">
-        <p>{numResults} results</p>
+        <p>Results Found: {numResults}</p>
         {controlAll ? (
           <div className="allocation-tile">
             {controlAll.map((control) => (
