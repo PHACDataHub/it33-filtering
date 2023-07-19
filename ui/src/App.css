@@ -48,20 +48,20 @@ body {
 
 .allocation-tile {
   border: 1px solid #26374a;
-  margin: 10px;
   min-width: 400px;
   border-radius: 5px;
   padding: 10px 15px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid;
+  border-top: none;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+
 }
 
 .allocation-tile li {
   list-style: none;
-}
-
-.allocation-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
 }
 
 .disclaimer {
@@ -71,6 +71,17 @@ body {
   padding: 10px 15px;
   max-width: 500px;
   border-radius: 5px;
+}
+
+.allocation-title{
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: #fff;
+  background-color: #2572b4;
+  border-color: #2572b4;
+  margin: 0;
 }
 
 .filters {

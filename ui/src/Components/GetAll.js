@@ -40,23 +40,24 @@ export default function GetAllControls() {
 
   return (
     <div>
-      <div className="allocation-container">
+      <div>
         <p>Results Found: {numResults}</p>
         {controlAll ? (
-          <div className="allocation-tile">
+          <div>
             {controlAll.map((control) => (
               <div key={control.id}>
-                <h3>{control.control}</h3>
-                <h3>{control.title}</h3>
-                <p>Definition: {control.definition}</p>
-                <h4>All Allocations:</h4>
-                <ul>
-                  {Object.entries(control.allocation)
-                    .filter(([key, value]) => value === true)
-                    .map(([key]) => (
-                      <li key={key}>{key}</li>
-                    ))}
-                </ul>
+                <h3 className="allocation-title">{control.control} | {control.title}</h3>
+                <div className="allocation-tile">
+                  <p>Definition: {control.definition}</p>
+                  <h4>All Allocations:</h4>
+                  <ul>
+                    {Object.entries(control.allocation)
+                      .filter(([key, value]) => value === true)
+                      .map(([key]) => (
+                        <li key={key}>{key}</li>
+                      ))}
+                  </ul>
+                </div>
               </div>
             ))}
           </div>
