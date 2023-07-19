@@ -5,18 +5,8 @@ const typeDefinitions = /* GraphQL */ `
   type Query {
     control(id: String!): Control
     controlDrop(allocation: String!): [Control]
-    controlAll: [ControlAll!]!
+    controlAll: [Control]
   }
-
-  type ControlAll {
-    control: String!
-    title: String!
-    definition: String!
-    family: String!
-    id: String!
-    allocation: Allocation!
-  }
-  
 
   type Control {
     control: String!
@@ -25,9 +15,8 @@ const typeDefinitions = /* GraphQL */ `
     family: String!
     id: String!
     allocation: Allocation!
+    additionalGuidance: String!
   }
-
-
 
   type Allocation {
     department: Boolean!
@@ -45,23 +34,6 @@ const typeDefinitions = /* GraphQL */ `
     platform: Boolean!
     application: Boolean!
   }
-
-  input ControlFilterInput {
-    department: Boolean
-    itSecurityFunction: Boolean
-    cioFunctionIncludingOps: Boolean
-    physicalSecurityGroup: Boolean
-    personnelSecurityGroup: Boolean
-    programAndServiceDeliveryManagers: Boolean
-    process: Boolean
-    project: Boolean
-    itProjects: Boolean
-    facilityAndHardware: Boolean
-    resourceAbstractionAndControlLayer: Boolean
-    infrastructure: Boolean
-    platform: Boolean
-    application: Boolean
-  }
 `;
 
 
@@ -72,7 +44,7 @@ const resolvers = {
       const cursor = await query`
         FOR ctl IN controls
         FILTER ctl.control == ${id}
-        RETURN ctl
+        RETURN DISTINCT ctl
       `;
       const control = await cursor.all();
       return control[0];
@@ -81,7 +53,7 @@ const resolvers = {
       // Fetch all controls without any specific filtering
       const cursor = await query`
         FOR ctl IN controls
-        RETURN ctl
+        RETURN DISTINCT ctl
       `;
       const controls = await cursor.all();
       return controls;
