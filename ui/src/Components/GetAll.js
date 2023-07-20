@@ -58,11 +58,12 @@ export default function GetAllControls() {
   if (loading) return "Loading...";
   if (error) return <pre>{error.message}</pre>;
 
+  // update the number of results displayed
   const numResults = filteredControls ? filteredControls.length : 0;
 
   return (
-    <div>
-      <div>
+    <div >
+      <div >
         <input
           type="text"
           value={keyword}
@@ -70,7 +71,7 @@ export default function GetAllControls() {
           placeholder="Search by keyword"
         />
         <p>Results Found: {numResults}</p>
-        <div>
+        <div className="results-container">
           {filteredControls && filteredControls.length > 0 ? (
             filteredControls.map((control, index) => (
               <div key={`${control.id}-${index}`}>
@@ -78,7 +79,7 @@ export default function GetAllControls() {
                   {control.control} | {control.title}
                 </h3>
                 <div className="allocation-tile">
-                  <p>Definition: {control.definition}</p>
+                  <p>{control.definition}</p>
                   <p>{control.additionalGuidance}</p>
                   <h4>All Allocations:</h4>
                   <ul>
