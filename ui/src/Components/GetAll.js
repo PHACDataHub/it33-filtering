@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useQuery, gql } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { useQuery, useLazyQuery, gql } from "@apollo/client";
 
 const GET_ALL_CONTROLS = gql`
   query controlAll {
@@ -30,50 +30,82 @@ const GET_ALL_CONTROLS = gql`
   }
 `;
 
+const GET_BY_SEARCH = gql`
+  query GetControlsBySearch($keyword: ControlFilterInput!) {
+    controlAll(
+      filter: {
+        OR: [
+          { control: { contains: $keyword } }
+          { title: { contains: $keyword } }
+        ]
+      }
+    ) {
+      control
+      title
+      definition
+      family
+      id
+      allocation {
+        department
+        itSecurityFunction
+        cioFunctionIncludingOps
+        physicalSecurityGroup
+        personnelSecurityGroup
+        programAndServiceDeliveryManagers
+        process
+        project
+        itProjects
+        facilityAndHardware
+        resourceAbstractionAndControlLayer
+        infrastructure
+        platform
+        application
+      }
+      additionalGuidance
+    }
+  }
+`;
+
 export default function GetAllControls() {
   const [keyword, setKeyword] = useState("");
   const { loading, error, data } = useQuery(GET_ALL_CONTROLS);
-  const [filteredControls, setFilteredControls] = useState([]);
+  const [getFilteredControls, { loading: loadingFiltered, data: filteredData }] = useLazyQuery(
+    GET_BY_SEARCH
+  );
+  
+  useEffect(() => {
+    // Log the filteredData whenever it changes
+    console.log(filteredData);
+  }, [filteredData]);
 
   const handleChange = (event) => {
     setKeyword(event.target.value);
+    getFilteredControls({ variables: { keyword: event.target.value } });
   };
 
-  useEffect(() => {
-    if (!loading && data) {
-      // Clear the filteredControls array
-      setFilteredControls([]);
-
-      // Filter controls based on the keyword
-      const filteredControls = data.controlAll.filter(
-        (control) =>
-          control.control.toLowerCase().includes(keyword.toLowerCase()) ||
-          control.title.toLowerCase().includes(keyword.toLowerCase())
-      );
-      setFilteredControls(filteredControls);
-      console.log(filteredControls)
-    }
-  }, [keyword, loading, data]);
-
   if (loading) return "Loading...";
+  if (loadingFiltered) return "Filtering...";
   if (error) return <pre>{error.message}</pre>;
 
-  // update the number of results displayed
-  const numResults = filteredControls ? filteredControls.length : 0;
+  const controls = keyword !== "" ? filteredData?.controlAll || [] : data.controlAll;
+  const numResults = controls.length;
 
   return (
-    <div >
-      <div >
+    <div>
+      <div>
+        <h2>Search by Keyword</h2>
         <input
           type="text"
           value={keyword}
           onChange={handleChange}
           placeholder="Search by keyword"
         />
+      </div>
+      <div>
         <p>Results Found: {numResults}</p>
         <div className="results-container">
-          {filteredControls && filteredControls.length > 0 ? (
-            filteredControls.map((control, index) => (
+          {numResults > 0 ? (
+            controls.map((control, index) => (
               <div key={`${control.id}-${index}`}>
                 <h3 className="allocation-title">
                   {control.control} | {control.title}

@@ -5,7 +5,25 @@ const typeDefinitions = /* GraphQL */ `
   type Query {
     control(id: String!): Control
     controlDrop(allocation: String!): [Control]
-    controlAll: [Control]
+    controlAll(filter: String): [Control]
+  }
+
+  type Query {
+    control(id: String!): Control
+    controlAll(filter: ControlFilterInput): [Control]
+  }
+  
+  input ControlFilterInput {
+    OR: [ControlFilterCondition!]
+  }
+  
+  input ControlFilterCondition {
+    control: StringFilter
+    title: StringFilter
+  }
+  
+  input StringFilter {
+    contains: String
   }
 
   type Control {
@@ -36,8 +54,6 @@ const typeDefinitions = /* GraphQL */ `
   }
 `;
 
-
-
 const resolvers = {
   Query: {
     control: async (_root, { id }, { query }) => {
@@ -49,14 +65,25 @@ const resolvers = {
       const control = await cursor.all();
       return control[0];
     },
-    controlAll: async (_root, _args, { query }) => {
-      // Fetch all controls without any specific filtering
-      const cursor = await query`
-        FOR ctl IN controls
-        RETURN DISTINCT ctl
-      `;
-      const controls = await cursor.all();
-      return controls;
+    controlAll: async (_root, { filter }, { query }) => {
+      if (filter && filter !== "") {
+        // Apply the filter logic based on the "filter" argument
+        const cursor = await query`
+          FOR ctl IN controls
+          FILTER CONTAINS(ctl.control, ${filter}) || CONTAINS(ctl.title, ${filter})
+          RETURN DISTINCT ctl
+        `;
+        const controls = await cursor.all();
+        return controls;
+      } else {
+        // Fetch all controls without any specific filtering if filter is not provided
+        const cursor = await query`
+          FOR ctl IN controls
+          RETURN DISTINCT ctl
+        `;
+        const controls = await cursor.all();
+        return controls;
+      }
     },
     controlDrop: async (_, { allocation }, { query }) => {
       // Apply the filter logic based on the "allocation" argument

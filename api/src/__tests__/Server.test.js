@@ -8,8 +8,8 @@ import { Database, aql } from "arangojs";
 // test db connection
 const db = new Database({
   url: "http://127.0.0.1:8529",
-  databaseName: "itgs33",
-  auth: { username: "root", password: "test123" },
+  databaseName: "itsg33",
+  auth: { username: "root", password: "openSesame" },
 });
 
 const query = async function query(strings, ...vars) {
