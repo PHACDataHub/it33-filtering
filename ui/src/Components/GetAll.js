@@ -31,7 +31,7 @@ const GET_ALL_CONTROLS = gql`
 `;
 
 const GET_BY_SEARCH = gql`
-  query GetControlsBySearch($keyword: ControlFilterInput!) {
+  query GetControlsBySearch($keyword: String!) {
     controlAll(
       filter: {
         OR: [
@@ -108,7 +108,7 @@ export default function GetAllControls() {
             controls.map((control, index) => (
               <div key={`${control.id}-${index}`}>
                 <h3 className="allocation-title">
-                  {control.control} | {control.title}
+                  {control.control}{control.enhancement} | {control.title}
                 </h3>
                 <div className="allocation-tile">
                   <p>{control.definition}</p>

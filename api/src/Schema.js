@@ -10,20 +10,7 @@ const typeDefinitions = /* GraphQL */ `
 
   type Query {
     control(id: String!): Control
-    controlAll(filter: ControlFilterInput): [Control]
-  }
-  
-  input ControlFilterInput {
-    OR: [ControlFilterCondition!]
-  }
-  
-  input ControlFilterCondition {
-    control: StringFilter
-    title: StringFilter
-  }
-  
-  input StringFilter {
-    contains: String
+    controlAll: [Control]
   }
 
   type Control {
@@ -32,6 +19,7 @@ const typeDefinitions = /* GraphQL */ `
     definition: String!
     family: String!
     id: String!
+    enhancement: String!
     allocation: Allocation!
     additionalGuidance: String!
   }
@@ -55,6 +43,12 @@ const typeDefinitions = /* GraphQL */ `
 `;
 
 const resolvers = {
+  Control:{
+    id: async (root) => {
+      console.log({ works: root })
+      return root._id;
+    }
+  },
   Query: {
     control: async (_root, { id }, { query }) => {
       const cursor = await query`
