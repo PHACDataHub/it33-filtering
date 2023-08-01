@@ -13,8 +13,8 @@ services:
   api:
     build: api
     environment:
-      DB_URL: http://arangodb:8529
-      DB_NAME: itgs33
+      DB_URL: http://127.0.0.1:8529
+      DB_NAME: itsg33
       DB_USER: root
       DB_PASS: openSesame
       PORT: 4000
