@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1690860740532" clover="3.2.0">
-  <project timestamp="1690860740532" name="All files">
+<coverage generated="1690907113933" clover="3.2.0">
+  <project timestamp="1690907113934" name="All files">
     <metrics statements="104" coveredstatements="86" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="2" elements="109" coveredelements="90" complexity="0" loc="104" ncloc="104" packages="1" files="1" classes="1"/>
-    <file name="Schema.js" path="C:\Users\atoui\it33-filtering\api\src\Schema.js">
+    <file name="Schema.js" path="/workspaces/it33-filtering/api/src/Schema.js">
       <metrics statements="104" coveredstatements="86" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="2"/>
       <line num="1" count="1" type="stmt"/>
       <line num="2" count="1" type="stmt"/>

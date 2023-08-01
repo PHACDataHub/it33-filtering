@@ -3,7 +3,7 @@ services:
   arangodb:
     image: arangodb:3.11
     environment:
-      ARANGO_ROOT_PASSWORD: openSesame
+      ARANGO_ROOT_PASSWORD: test123
     ports:
       - 8529:8529
   ui:
@@ -16,7 +16,7 @@ services:
       DB_URL: http://127.0.0.1:8529
       DB_NAME: itsg33
       DB_USER: root
-      DB_PASS: openSesame
+      DB_PASS: test123
       PORT: 4000
     ports:
       - 4000:4000

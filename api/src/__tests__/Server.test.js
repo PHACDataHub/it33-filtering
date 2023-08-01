@@ -4,13 +4,17 @@ import { createServer } from "http";
 import { schema } from "../Schema.js";
 import { describe, it, expect } from "vitest";
 import { Database, aql } from "arangojs";
+import 'dotenv-safe/config.js'
+
+const { DB_URL, DB_NAME, DB_USER, DB_PASS, PORT } = process.env;
 
 // test db connection
 const db = new Database({
-  url: "http://127.0.0.1:8529",
-  databaseName: "itsg33",
-  auth: { username: "root", password: "openSesame" },
+  url: DB_URL,
+  databaseName: DB_NAME,
+  auth: { username: DB_USER, password: DB_PASS },
 });
+
 
 const query = async function query(strings, ...vars) {
   return db.query(aql(strings, ...vars), {
