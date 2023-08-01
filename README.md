@@ -1,36 +1,8 @@
-# Template Repo
+# ITSG33 control panel
 
-[Français](https://github.com/PHACDataHub/DSCO-naming-app/edit/main/README.md#dsco-application-de-g%C3%A9n%C3%A9ration-de-nom)
+This project is aimed at helping people understand and use the [ITSG-33 control catalogue](https://www.cyber.gc.ca/en/guidance/annex-3a-security-control-catalogue-itsg-33).
 
-## ⚠️ DISCLAIMER
+## Running it
 
-This project is under heavy development and is not by any means, complete. Due to the nature of the development process, the language is currently being handled automatically and therefore may not be accurate. There are many aspects of the project that may not currently work and/or does not directly reflect the technologies that the government has, currently, or will use.
-
-## 📈 Project Management and Tracker
-
-
-
-## 🤔 Problem statement that we are trying to solve
-
-## ❓ The tech stack
-
-## 👨‍💻 Getting Started
-[GitHub Codespaces](https://github.com/PHACDataHub/Wiki/wiki/How-to-use-GitHub-Codespaces)
-
-To dive into the code, read the wiki above on how to use GitHub Codespaces.
-
-## 🤓 Want to contribute?
-
-## 📄 License
-Unless otherwise noted, the source code of this project is covered under Crown Copyright, Government of Canada, and is distributed under the [MIT License](LICENSE).
-
-The Canada wordmark and related graphics associated with this distribution are protected under trademark law and copyright law. No permission is granted to use them outside the parameters of the Government of Canada's corporate identity program. For more information, see [Federal identity requirements](https://www.canada.ca/en/treasury-board-secretariat/topics/government-communications/federal-identity-requirements.html).
-
-______________________
-______________________
-______________________
-
-# DSCO Application 
-
-## ⚠️ CLAUSE DE NON-RESPONSABILITÉ
-Ce projet est en plein développement et n'est en aucun cas terminé. En raison de la nature du processus de développement, le langage est actuellement géré automatiquement et peut donc ne pas être précis. De nombreux aspects du projet peuvent ne pas fonctionner actuellement et/ou ne reflètent pas directement les technologies que le gouvernement utilise actuellement ou utilisera.
+In the project root you can run the project using [docker compose](https://docs.docker.com/compose/) using the command `docker-compose up`.
+The ui will be reachable via `localhost:3000`, the api via `localhost:3000/graphql` and the database on `localhost:8529`.
