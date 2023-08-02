@@ -40,7 +40,7 @@ static_resources:
             address:
               socket_address:
                 address: ui
-                port_value: 8080
+                port_value: 3000
   - name: api
     connect_timeout: 0.40s
     type: strict_dns
