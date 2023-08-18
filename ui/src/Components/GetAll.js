@@ -35,7 +35,7 @@ export default function GetAllControls() {
   const { loading, error, data } = useQuery(GET_ALL_CONTROLS);
 
   const handleChange = (event) => {
-    const newKeyword = event.target.value.toUpperCase();
+    const newKeyword = event.target.value;
     setKeyword(newKeyword);
   };
 
@@ -43,7 +43,7 @@ export default function GetAllControls() {
   if (error) return <pre>{error.message}</pre>;
 
   const filteredControls = data.controlAll.filter((control) =>
-    control.control.includes(keyword)
+    control.control.toLowerCase().includes(keyword) || control.title.toLowerCase().includes(keyword)
   );
 
   const numResults = filteredControls.length;
