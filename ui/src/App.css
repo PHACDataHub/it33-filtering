@@ -111,3 +111,8 @@ footer {
 .results-container{
   margin-top: 25px;
 }
+
+.filter-options{
+  display: flex;
+  gap: 50px;
+}
