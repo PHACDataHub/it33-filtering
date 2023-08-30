@@ -1,5 +1,5 @@
 import "./App.css";
-import GetAll from "./Components/GetAll";
+import SearchContainer from "./Components/SearchContainer";
 import { Wordmark } from "./Components/Wordmark.tsx";
 import { Phacsignature } from "./Components/PhacSig.tsx";
 function App() {
@@ -18,7 +18,7 @@ function App() {
       </section>
 
       <div className="getData">
-      <GetAll />
+      <SearchContainer />
       </div>
    
       <footer>
