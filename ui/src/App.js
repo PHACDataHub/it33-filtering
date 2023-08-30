@@ -1,6 +1,4 @@
 import "./App.css";
-import GetData from "./Components/GetData.js";
-import GetByAllocation from "./Components/GetByAllocation";
 import GetAll from "./Components/GetAll";
 import { Wordmark } from "./Components/Wordmark.tsx";
 import { Phacsignature } from "./Components/PhacSig.tsx";
