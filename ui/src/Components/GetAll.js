@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
+import AllocationList from "./AllocationList";
 
 const GET_ALL_CONTROLS = gql`
   query {
@@ -32,7 +33,7 @@ const GET_ALL_CONTROLS = gql`
 
 export default function GetAllControls() {
   const [keyword, setKeyword] = useState("");
-  const [allocation, setAllocation] = useState("");
+  const [selectedAllocation, setSelectedAllocation] = useState("");
   const { loading, error, data } = useQuery(GET_ALL_CONTROLS);
 
   const handleChange = (event) => {
@@ -40,10 +41,9 @@ export default function GetAllControls() {
     setKeyword(newKeyword);
   };
 
-  const handleAllocationChange = (event) => {
-    const newAllocation = event.target.value;
-    setAllocation(newAllocation);
-  }
+  const handleAllocationSelect = (allocation) => {
+    setSelectedAllocation(allocation);
+}
 
   if (loading) return "Loading...";
   if (error) return <pre>{error.message}</pre>;
@@ -53,11 +53,11 @@ export default function GetAllControls() {
       control.control.toLowerCase().includes(keyword) ||
       control.title.toLowerCase().includes(keyword);
 
-    if (allocation === "") {
+    if (selectedAllocation === "") {
       return isKeywordMatch;
     }
 
-    const allocationValue = control.allocation[allocation];
+    const allocationValue = control.allocation[selectedAllocation];
     return isKeywordMatch && allocationValue;
   });
 
@@ -74,51 +74,7 @@ export default function GetAllControls() {
           onChange={handleChange}
           placeholder="Search by keyword"
         />
-        <select value={allocation} onChange={handleAllocationChange}>
-          <option value="">All Allocations</option>
-          <option value="department">
-            Department
-          </option>
-          <option value="itSecurityFunction">
-            IT Security Function
-          </option>
-          <option value="cioFunctionIncludingOps">
-            CIO Function Including Ops
-          </option>
-          <option value="physicalSecurityGroup">
-            Physical Security Group
-          </option>
-          <option value="personnelSecurityGroup">
-            Personel Security Group
-          </option>
-          <option value="programAndServiceDeliveryManagers">
-            Program and Service Delivery Managers
-          </option>
-          <option value="process">
-            Process
-          </option>
-          <option value="project">
-            Project
-          </option>
-          <option value="itProjects">
-            IT Projects
-          </option>
-          <option value="facilityAndHardware">
-            Facility and Hardware
-          </option>
-          <option value="resourceAbstractionAndControlLayer">
-            Resource Abstraction and Control Layer
-          </option>
-          <option value="infrastructure">
-            Infrastructure
-          </option>
-          <option value="platform">
-            Platform
-          </option>
-          <option value="application">
-            Application
-          </option>
-        </select>
+         <AllocationList onSelect={handleAllocationSelect} />
       </div>
       <div>
         <p>Results Found: {numResults}</p>
