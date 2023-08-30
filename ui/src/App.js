@@ -7,12 +7,12 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div className="header-sig">
-          <Phacsignature />
+          <Phacsignature language="fr" />
         </div>
         <h1>DSCO ITSG33 Filter</h1>
       </header>
 
-      <section class="alert alert-info">
+      <section className="alert alert-info">
         <h3>This is a work in progress.</h3>
         <p>Information may be incorrect or inaccurate.</p>
       </section>
@@ -20,7 +20,7 @@ function App() {
       <div className="getData">
       <SearchContainer />
       </div>
-   
+
       <footer>
         <div className="footer-wm">
           <Wordmark textColor="black" />
