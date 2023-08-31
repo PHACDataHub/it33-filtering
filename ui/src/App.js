@@ -3,13 +3,13 @@ import GetData from "./Components/GetData.js";
 import GetByAllocation from "./Components/GetByAllocation";
 import GetAll from "./Components/GetAll";
 import { Wordmark } from "./Components/Wordmark.tsx";
-import { Phacsignature } from "./Components/PhacSig.tsx";
+import { PhacSignature } from "./Components/PhacSignature.js";
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <div className="header-sig">
-          <Phacsignature language="fr" />
+          <PhacSignature language="fr" />
         </div>
         <h1>DSCO ITSG33 Filter</h1>
       </header>
