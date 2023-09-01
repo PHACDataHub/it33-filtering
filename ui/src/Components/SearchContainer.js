@@ -1,39 +1,13 @@
 import React, { useState } from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import AllocationList from "./AllocationList";
 import SearchInput from "./Search";
 import ResultsContainer from "./ResultsContainer";
+import { GET_ALL_CONTROLS } from "./ControlQueries"; 
 
-const GET_ALL_CONTROLS = gql`
-  query {
-    controlAll {
-      control
-      title
-      definition
-      family
-      id
-      additionalGuidance
-      allocation {
-        department
-        itSecurityFunction
-        cioFunctionIncludingOps
-        physicalSecurityGroup
-        personnelSecurityGroup
-        programAndServiceDeliveryManagers
-        process
-        project
-        itProjects
-        facilityAndHardware
-        resourceAbstractionAndControlLayer
-        infrastructure
-        platform
-        application
-      }
-    }
-  }
-`;
 
-export default function GetAllControls() {
+
+export default function SearchContainer() {
   const [selectedKeyword, setSelectedKeyword] = useState("");
   const [selectedAllocation, setSelectedAllocation] = useState("");
   const { loading, error, data } = useQuery(GET_ALL_CONTROLS);
