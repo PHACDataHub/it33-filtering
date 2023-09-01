@@ -5,8 +5,6 @@ import SearchInput from "./Search";
 import ResultsContainer from "./ResultsContainer";
 import { GET_ALL_CONTROLS } from "./ControlQueries"; 
 
-
-
 export default function SearchContainer() {
   const [selectedKeyword, setSelectedKeyword] = useState("");
   const [selectedAllocation, setSelectedAllocation] = useState("");
