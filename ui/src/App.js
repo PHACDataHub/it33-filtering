@@ -10,6 +10,7 @@ import { useQuery } from "@apollo/client";
 import { GET_ALL_CONTROLS } from "./Components/ControlQueries";
 
 
+
 function App() {
   const [selectedKeyword, setSelectedKeyword] = useState("");
   const [selectedAllocation, setSelectedAllocation] = useState("");
