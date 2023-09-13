@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { useState } from "react";
 import SearchContainer from "./Components/SearchContainer";
-import SearchInput from "./Components/Search";
+import SearchInput from "./Components/SearchInput";
 import AllocationList from "./Components/AllocationList";
 import ResultsContainer from "./Components/ResultsContainer";
 import { Wordmark } from "./Components/Wordmark.tsx";

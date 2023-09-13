@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export function SearchInput({ onSearch, placeholder }) {
+export default function SearchInput({ onSearch, placeholder }) {
     console.log("onSearch is a function:", typeof onSearch === "function");
 
     const [keyword, setKeyword] = useState("");
@@ -22,4 +22,3 @@ export function SearchInput({ onSearch, placeholder }) {
 
 
 
-export default SearchInput;

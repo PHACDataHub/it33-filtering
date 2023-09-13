@@ -1,5 +1,5 @@
 import React from "react";
-import SearchInput from "./Search";
+import SearchInput from "./SearchInput";
 import AllocationList from "./AllocationList";
 
 function SearchContainer({ onSearch, onSelect }) {
