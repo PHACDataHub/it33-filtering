@@ -20,7 +20,7 @@ const query = async function query(strings, ...vars) {
 };
 
 function index() {
-  const server = Server({ schema, context: { query } });
+  const server = Server({ schema, query });
   server.listen(PORT, () => {
     console.info(`Server is running on http://localhost:${PORT}/graphql`);
   });

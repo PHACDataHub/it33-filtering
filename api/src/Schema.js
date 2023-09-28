@@ -14,6 +14,7 @@ const typeDefinitions = /* GraphQL */ `
     definition: String!
     family: String!
     id: String!
+    class: String !
     enhancement: String!
     allocation: Allocation!
     additionalGuidance: String!
@@ -45,19 +46,23 @@ const resolvers = {
     }
   },
   Query: {
-    control: async (_root, { id }, { query }) => {
+    control: async (_root, { id }, { query,request }) => {
       const cursor = await query`
-      FOR ctl IN controls
-      FILTER CONTAINS(ctl.control, ${id})  // Modify the filter criterion here
-      RETURN DISTINCT ctl
+            FOR ctl IN controls_final
+            FILTER CONTAINS(ctl.control, ${id})  // Modify the filter criterion here
+            LET col1=(UNSET(ctl, ["class","title","definition","additionalGuidance"]))
+            LET col2= ({class:TRANSLATE(${request.language},ctl.class),title:TRANSLATE(${request.language},ctl.title), definition:TRANSLATE(${request.language},ctl.definition), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance) })
+            RETURN MERGE(col1,col2)
       `;
       const control = await cursor.all();
       return control[0];
     },
-    controlAll: async (_root, { query }) => {
+    controlAll: async (_root,_, { query,request }) => {
       const cursor = await query`
-          FOR ctl IN controls
-          RETURN DISTINCT ctl
+          FOR ctl IN controls_final
+          LET col1=(UNSET(ctl, ["class","title","definition","additionalGuidance"]))
+          LET col2= ({class:TRANSLATE(${request.language},ctl.class),title:TRANSLATE(${request.language},ctl.title), definition:TRANSLATE(${request.language},ctl.definition), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance) })
+          RETURN MERGE(col1,col2)
         `;
       const controls = await cursor.all();
       return controls;
@@ -65,7 +70,7 @@ const resolvers = {
     controlDrop: async (_, { allocation }, { query }) => {
       // Apply the filter logic based on the "allocation" argument
       const cursor = await query`
-        FOR ctl IN controls
+        FOR ctl IN controls_final
         FILTER ctl.allocation.${allocation} == true
         RETURN DISTINCT ctl
       `;
