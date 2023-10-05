@@ -48,7 +48,7 @@ const resolvers = {
   Query: {
     control: async (_root, { id }, { query,request }) => {
       const cursor = await query`
-            FOR ctl IN controls_final
+            FOR ctl IN controls
             FILTER CONTAINS(ctl.control, ${id})  // Modify the filter criterion here
             LET col1=(UNSET(ctl, ["class","title","definition","additionalGuidance"]))
             LET col2= ({class:TRANSLATE(${request.language},ctl.class),title:TRANSLATE(${request.language},ctl.title), definition:TRANSLATE(${request.language},ctl.definition), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance) })
@@ -59,7 +59,7 @@ const resolvers = {
     },
     controlAll: async (_root,_, { query,request }) => {
       const cursor = await query`
-          FOR ctl IN controls_final
+          FOR ctl IN controls
           LET col1=(UNSET(ctl, ["class","title","definition","additionalGuidance"]))
           LET col2= ({class:TRANSLATE(${request.language},ctl.class),title:TRANSLATE(${request.language},ctl.title), definition:TRANSLATE(${request.language},ctl.definition), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance) })
           RETURN MERGE(col1,col2)
