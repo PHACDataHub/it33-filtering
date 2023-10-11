@@ -20,17 +20,35 @@ services:
       ARANGO_ROOT_PASSWORD: test123
     ports:
       - 8529:8529
-  ui:
-    build: ui
-    environment:
-      BROWSER: none
-      PORT: 3000
-    ports:
-      - 3000
+  populate-arangodb:
+    image: arangodb:3.11
+    command: [
+      "sh", "-c",
+      # retry `arangoimport` five times at 4 second intervals, to give 
+      # the arangodb container time to prepare for connectons.
+      # TODO: should be able to do this cleaner with a health/readiness
+      # check on the arangodb container, but couldn't seem to write one 
+      "for i in 1 2 3 4 5; \
+      do \
+      arangoimport \
+      --server.endpoint http+tcp://arangodb:8529 \
+      --server.username root \
+      --server.password test123 \
+      --server.database itsg33 \
+      --create-database true \
+      --file etc/controls.json \
+      --collection controls \
+      --create-collection true \
+      --overwrite true \
+      && break \
+      || sleep 4; \
+      done"
+    ]
     volumes:
-    - type: bind
-      source: ./ui
-      target: /ui
+        - ./controls.json:/etc/controls.json
+    depends_on:
+      arangodb:
+        condition: service_started
   api:
     build: api
     environment:
@@ -45,7 +63,23 @@ services:
     - type: bind
       source: ./api
       target: /api
-    
+    depends_on:
+      populate-arangodb:
+        condition: service_completed_successfully
+  ui:
+    build: ui
+    environment:
+      BROWSER: none
+      PORT: 3000
+    ports:
+      - 3000
+    volumes:
+    - type: bind
+      source: ./ui
+      target: /ui
+    depends_on:
+      api:
+        condition: service_started
     
     
     
