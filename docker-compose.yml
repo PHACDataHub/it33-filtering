@@ -21,22 +21,18 @@ services:
     ports:
       - 8529:8529
   ui:
-    image: node:alpine
-    working_dir: /home/node/ui
-    entrypoint: npm
-    command: ["run", "start"]
-    ports:
-      - 3000
+    build: ui
     environment:
       BROWSER: none
+      PORT: 3000
+    ports:
+      - 3000
     volumes:
     - type: bind
       source: ./ui
-      target: /home/node/ui
+      target: /ui
   api:
     build: api
-    # Auto reload when files change with watch mode
-    command: node --watch index.js
     environment:
       DB_URL: http://arangodb:8529
       DB_NAME: itsg33
