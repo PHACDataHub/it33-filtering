@@ -1,9 +1,6 @@
 FROM node:18-alpine
-WORKDIR /app
-COPY . .
-
-RUN npm ci
+WORKDIR /home/ui
 
 EXPOSE $PORT
 
-CMD npm run start
+CMD npm ci && npm run start

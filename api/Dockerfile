@@ -1,9 +1,7 @@
 FROM node:18-alpine
-WORKDIR /app
-COPY . .
+WORKDIR /home/api
 
-RUN npm ci
- 
 EXPOSE $PORT
+EXPOSE $DEBUG_PORT
 
-CMD node --watch index.js
+CMD npm ci && node --inspect="0.0.0.0:${DEBUG_PORT}" --watch index.js

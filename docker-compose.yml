@@ -1,19 +1,6 @@
 version: "3.8"
 name: itsg
 services:
-  # proxies localhost:3000 to containers based on rules in envoy.yaml
-  envoy:
-    image: envoyproxy/envoy-distroless-dev
-    entrypoint: envoy
-    command: [ "-l", "warn", "-c", "/etc/envoy.yaml", "--service-cluster", "envoy"]
-    volumes:
-      - ./envoy.yaml:/etc/envoy.yaml # Envoy configuration
-    expose:
-      - "3000" # Forward to proxied apps
-      - "3001" # Envoy admin page
-    ports:
-      - "3000:3000"
-      - "3001:3001"
   arangodb:
     image: arangodb:3.11
     environment:
@@ -50,33 +37,34 @@ services:
       arangodb:
         condition: service_started
   api:
-    build: api
+    build: ./api
+    image: api:1
     environment:
       DB_URL: http://arangodb:8529
       DB_NAME: itsg33
       DB_USER: root
       DB_PASS: test123
       PORT: 4000
+      DEBUG_PORT: 9229
     ports:
-      - 4000
+      - 4000:4000
+      - 9229:9229
     volumes:
-    - type: bind
-      source: ./api
-      target: /api
+      - ./api:/home/api
     depends_on:
       populate-arangodb:
         condition: service_completed_successfully
   ui:
-    build: ui
+    build: ./ui
+    image: ui:1
     environment:
       BROWSER: none
       PORT: 3000
+      API_PORT: 4000
     ports:
-      - 3000
+      - 3000:3000
     volumes:
-    - type: bind
-      source: ./ui
-      target: /ui
+      - ./ui:/home/ui
     depends_on:
       api:
         condition: service_started
