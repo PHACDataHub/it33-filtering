@@ -4,5 +4,5 @@ This project is aimed at helping people understand and use the [ITSG-33 control 
 
 ## Running it
 
-In the project root you can run the project using [docker compose](https://docs.docker.com/compose/) using the command `docker-compose up`.
-The ui will be reachable via `localhost:3000`, the api via `localhost:3000/graphql` and the database on `localhost:8529`.
+In the project root you can run the project using [docker compose](https://docs.docker.com/compose/) (`docker-compose up`).
+The ui will be available at `localhost:3000`, the api via `localhost:4000/graphql` and the database on `localhost:8529`.
