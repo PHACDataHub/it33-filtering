@@ -11,7 +11,7 @@ services:
     image: arangodb:3.11
     command: [
       "sh", "-c",
-      # retry `arangoimport` five times at 4 second intervals, to give 
+      # Retry `arangoimport` five times at 4 second intervals, to give 
       # the arangodb container time to prepare for connectons.
       # TODO: should be able to do this cleaner with a health/readiness
       # check on the arangodb container, but couldn't seem to write one 
@@ -37,8 +37,8 @@ services:
       arangodb:
         condition: service_started
   api:
+    image: api:1.1
     build: ./api
-    image: api:1
     environment:
       DB_URL: http://arangodb:8529
       DB_NAME: itsg33
@@ -51,12 +51,16 @@ services:
       - 9229:9229
     volumes:
       - ./api:/home/api
+      # Override the host node_modules, from the above volume, with an empty anonymous volume inside the container
+      # Note: for the empty node_modules volume to be writtable by the container user, the image has to already have
+      # an empty node_modules dir at this location, already owned by the container user. See the docker file for details.
+      - /home/api/node_modules
     depends_on:
       populate-arangodb:
         condition: service_completed_successfully
   ui:
+    image: ui:1.1
     build: ./ui
-    image: ui:1
     environment:
       BROWSER: none
       PORT: 3000
@@ -65,6 +69,10 @@ services:
       - 3000:3000
     volumes:
       - ./ui:/home/ui
+      # Override the host node_modules, from the above volume, with an empty anonymous volume inside the container
+      # Note: for the empty node_modules volume to be writtable by the container user, the image has to already have
+      # an empty node_modules dir at this location, already owned by the container user. See the docker file for details.
+      - /home/ui/node_modules
     depends_on:
       api:
         condition: service_started
