@@ -54,7 +54,7 @@ const resolvers = {
       const control = await cursor.all();
       return control[0];
     },
-    controlAll: async (_root, { query }) => {
+    controlAll: async (_root, _args, { query }) => {
       const cursor = await query`
           FOR ctl IN controls
           RETURN DISTINCT ctl
@@ -62,7 +62,7 @@ const resolvers = {
       const controls = await cursor.all();
       return controls;
     },
-    controlDrop: async (_, { allocation }, { query }) => {
+    controlDrop: async (_root, { allocation }, { query }) => {
       // Apply the filter logic based on the "allocation" argument
       const cursor = await query`
         FOR ctl IN controls

@@ -7,7 +7,7 @@ import ResultsContainer from "./Components/ResultsContainer";
 import { Wordmark } from "./Components/Wordmark.tsx";
 import { PhacSignature } from "./Components/PhacSignature.js";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_CONTROLS } from "./Components/ControlQueries";
+import { GET_ALL_CONTROLS } from "./graphql";
 
 
 

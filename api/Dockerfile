@@ -1,12 +1,7 @@
-FROM node:20
-WORKDIR /app
-COPY . .
-# install dep.
-RUN npm ci
- 
+FROM node:18-alpine
+WORKDIR /home/api
 
-# Expose port 8080 for NGINX
-EXPOSE 8080
+EXPOSE $PORT
+EXPOSE $DEBUG_PORT
 
-# Substitute the environment variables and generate the final config
-CMD node index.js
+CMD npm ci && node --inspect="0.0.0.0:${DEBUG_PORT}" --watch index.js
