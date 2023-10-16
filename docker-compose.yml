@@ -37,7 +37,7 @@ services:
       arangodb:
         condition: service_started
   api:
-    image: api:1.2
+    image: api:1.3
     build:
       dockerfile: ./node-dev.dockerfile
     volumes:
@@ -45,7 +45,7 @@ services:
     command: node --inspect="0.0.0.0:9229" --watch index.js
     environment:
       ## api project env vars
-      PORT: 4000 # NOTE: the ui's graphql client is hardcoded to port 4000 right now
+      PORT: 4000 # NOTE: the ui's graphql client is hardcoded to connect to the server via localhost:4000 right now
       DB_URL: http://arangodb:8529
       DB_NAME: itsg33
       DB_USER: root
@@ -57,15 +57,14 @@ services:
       populate-arangodb:
         condition: service_completed_successfully
   ui:
-    image: ui:1.2
+    image: ui:1.3
     build:
       dockerfile: ./node-dev.dockerfile
     volumes:
       - ./ui:/project
     command: npm start
     environment:
-      ## react-script config env vars
-      PORT: 3000
+      PORT: 3000 # set the react-scripts dev server port
       BROWSER: none # stop react-scripts `start` from trying to open a browser session inside the container
     ports:
       - 3000:3000
