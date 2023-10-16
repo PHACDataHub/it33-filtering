@@ -48,7 +48,7 @@ const resolvers = {
   Query: {
       controlAll: async (_root, _, { query, request }) => {
           const cursor = await query`
-          FOR ctl IN controls_en
+          FOR ctl IN controls
           LET col1=(UNSET(ctl, ["class","title","definition","additionalGuidance"]))
           LET col2= ({class:TRANSLATE(${request.language},ctl.class,"Not Available"),title:TRANSLATE(${request.language},ctl.title,"Not Available"), definition:TRANSLATE(${request.language},ctl.definition,"Not Available"), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance,"Not Available") })
           RETURN MERGE(col1,col2)
@@ -58,7 +58,7 @@ const resolvers = {
       },
       control: async (_root, { id }, { query, request }) => {
       const cursor = await query`
-            FOR ctl IN controls_en
+            FOR ctl IN controls
             FILTER CONTAINS(ctl.control, ${id})  // Modify the filter criterion here
             LET col1=(UNSET(ctl, ["class","title","definition","additionalGuidance"]))
             LET col2= ({class:TRANSLATE(${request.language},ctl.class,"Not Available"),title:TRANSLATE(${request.language},ctl.title,"Not Available"), definition:TRANSLATE(${request.language},ctl.definition,"Not Available"), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance,"Not Available") })
@@ -70,7 +70,7 @@ const resolvers = {
     controlDrop: async (_, { allocation }, { query }) => {
       // Apply the filter logic based on the "allocation" argument
       const cursor = await query`
-        FOR ctl IN controls_en
+        FOR ctl IN controls
         FILTER ctl.allocation.${allocation} == true
         RETURN DISTINCT ctl
       `;
