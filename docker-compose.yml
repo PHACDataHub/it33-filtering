@@ -9,6 +9,8 @@ services:
       - 8529:8529
   populate-arangodb:
     image: arangodb:3.11
+    volumes:
+        - ./controls.json:/etc/controls.json
     command: [
       "sh", "-c",
       # Retry `arangoimport` five times at 4 second intervals, to give 
@@ -31,48 +33,42 @@ services:
       || sleep 4; \
       done"
     ]
-    volumes:
-        - ./controls.json:/etc/controls.json
     depends_on:
       arangodb:
         condition: service_started
   api:
-    image: api:1.1
-    build: ./api
+    image: api:1.2
+    build:
+      dockerfile: ./node-dev.dockerfile
+    volumes:
+      - ./api:/project
+    command: node --inspect="0.0.0.0:9229" --watch index.js
     environment:
+      ## api project env vars
+      PORT: 4000 # NOTE: the ui's graphql client is hardcoded to port 4000 right now
       DB_URL: http://arangodb:8529
       DB_NAME: itsg33
       DB_USER: root
       DB_PASS: test123
-      PORT: 4000
-      DEBUG_PORT: 9229
     ports:
       - 4000:4000
       - 9229:9229
-    volumes:
-      - ./api:/home/api
-      # Override the host node_modules, from the above volume, with an empty anonymous volume inside the container
-      # Note: for the empty node_modules volume to be writtable by the container user, the image has to already have
-      # an empty node_modules dir at this location, already owned by the container user. See the docker file for details.
-      - /home/api/node_modules
     depends_on:
       populate-arangodb:
         condition: service_completed_successfully
   ui:
-    image: ui:1.1
-    build: ./ui
+    image: ui:1.2
+    build:
+      dockerfile: ./node-dev.dockerfile
+    volumes:
+      - ./ui:/project
+    command: npm start
     environment:
-      BROWSER: none
+      ## react-script config env vars
       PORT: 3000
-      API_PORT: 4000
+      BROWSER: none # stop react-scripts `start` from trying to open a browser session inside the container
     ports:
       - 3000:3000
-    volumes:
-      - ./ui:/home/ui
-      # Override the host node_modules, from the above volume, with an empty anonymous volume inside the container
-      # Note: for the empty node_modules volume to be writtable by the container user, the image has to already have
-      # an empty node_modules dir at this location, already owned by the container user. See the docker file for details.
-      - /home/ui/node_modules
     depends_on:
       api:
         condition: service_started
