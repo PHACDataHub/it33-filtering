@@ -18,7 +18,11 @@ USER container_user
 RUN mkdir ./node_modules
 VOLUME /project/node_modules
 
-ENTRYPOINT [ "npm", "ci" ]
+# This entrypoint syncs the container's node modules against the host workdir's package-lock.json.
+# Uses inotify-tools to watch for changes to package-lock.json, kills and restarts the container
+# command as needed
+COPY --chown=container_user ./node-dev-entrypoint.sh /home/entrypoint.sh
+ENTRYPOINT [ "/home/entrypoint.sh" ]
 
 # Default, specify the appropriate command in your docker-compose.yaml/in your `docker` args/etc 
 CMD npm start
