@@ -15,7 +15,7 @@ const typeDefinitions = /* GraphQL */ `
     family: String!
     id: String!
     class: String !
-    enhancement: String!
+    enhancement: String
     allocation: Allocation!
     additionalGuidance: String!
   }
@@ -46,31 +46,31 @@ const resolvers = {
     }
   },
   Query: {
-    control: async (_root, { id }, { query,request }) => {
+      controlAll: async (_root, _, { query, request }) => {
+          const cursor = await query`
+          FOR ctl IN controls_en
+          LET col1=(UNSET(ctl, ["class","title","definition","additionalGuidance"]))
+          LET col2= ({class:TRANSLATE(${request.language},ctl.class,"Not Available"),title:TRANSLATE(${request.language},ctl.title,"Not Available"), definition:TRANSLATE(${request.language},ctl.definition,"Not Available"), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance,"Not Available") })
+          RETURN MERGE(col1,col2)
+        `;
+          const controls = await cursor.all();
+          return controls;
+      },
+      control: async (_root, { id }, { query, request }) => {
       const cursor = await query`
-            FOR ctl IN controls
+            FOR ctl IN controls_en
             FILTER CONTAINS(ctl.control, ${id})  // Modify the filter criterion here
             LET col1=(UNSET(ctl, ["class","title","definition","additionalGuidance"]))
-            LET col2= ({class:TRANSLATE(${request.language},ctl.class),title:TRANSLATE(${request.language},ctl.title), definition:TRANSLATE(${request.language},ctl.definition), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance) })
+            LET col2= ({class:TRANSLATE(${request.language},ctl.class,"Not Available"),title:TRANSLATE(${request.language},ctl.title,"Not Available"), definition:TRANSLATE(${request.language},ctl.definition,"Not Available"), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance,"Not Available") })
             RETURN MERGE(col1,col2)
       `;
       const control = await cursor.all();
       return control[0];
     },
-    controlAll: async (_root,_, { query,request }) => {
-      const cursor = await query`
-          FOR ctl IN controls
-          LET col1=(UNSET(ctl, ["class","title","definition","additionalGuidance"]))
-          LET col2= ({class:TRANSLATE(${request.language},ctl.class),title:TRANSLATE(${request.language},ctl.title), definition:TRANSLATE(${request.language},ctl.definition), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance) })
-          RETURN MERGE(col1,col2)
-        `;
-      const controls = await cursor.all();
-      return controls;
-    },
     controlDrop: async (_, { allocation }, { query }) => {
       // Apply the filter logic based on the "allocation" argument
       const cursor = await query`
-        FOR ctl IN controls
+        FOR ctl IN controls_en
         FILTER ctl.allocation.${allocation} == true
         RETURN DISTINCT ctl
       `;
