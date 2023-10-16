@@ -1,6 +1,8 @@
 FROM node:18-alpine
 
-RUN apk add --no-cache inotify-tools
+# dependencies used in the entrypoint script
+RUN apk add --no-cache inotify-tools \
+  && apk add --no-cache tmux
 
 WORKDIR /project
 
