@@ -1,5 +1,6 @@
 import React from "react";
 import Control from "./Control";
+import { Link } from 'react-router-dom';
 
 export function ResultsContainer({ numResults, filteredControls }) {
   return (
@@ -8,7 +9,9 @@ export function ResultsContainer({ numResults, filteredControls }) {
       <div className="results-container">
         {numResults > 0 ? (
           filteredControls.map((control, index) => (
-            <Control key={`${control.id}-${index}`} control={control} />
+            <Link to={`/${control.control}`} >
+              <Control key={`${control.id}-${index}`} control={control} />
+            </Link>
           ))
         ) : (
           <p>No results found</p>
