@@ -17,28 +17,43 @@ set -o nounset
 #
 # Using a named pipe to buffer the tmux session's output and read it in to stdout
 
+# The container's command (docker file CMD or a command line/compose file overwrite) is
+# passed to the entrypoint script args, split by word. Usually parsed from $@, which
+# is an array of all arg values, but for our purposes we're using the less-common $*,
+# which is a space seperated string of all args (i.e. the original command string)
 container_command="${*}"
 
-tmux_session=container-command 
+tmux_session=""
 
-buffer=/tmp/tmux-output-buffer
+buffer="$(mktemp -d)/tmux-output-buffer"
 mkfifo "${buffer}"
 
 start_container_command () {
   echo "Starting container command"
 
-  tmux new-session -d -s "${tmux_session}" "${container_command}"
+  # Kill any existing container command tmux session
+  if [ ! -z "${tmux_session}" ]; then
+    kill_container_command
+  fi
 
-  # Start reading from the buffer; note that cat terminates on EOF, so will end when the tmux session is killed
-  cat "${buffer}" & 
+  # Start a new tmux session, store it's name in the script-level tmux_session variable
+  tmux_session=$(tmux new-session -dP -s "container_command_$(date +%s)")
 
-  # Write the tmux managed shell's output in to the buffer
+  # Pipe the tmux session's output in to the buffer
   tmux pipe-pane -o -t "${tmux_session}" "cat > ${buffer}" 
+
+  # Start reading from the buffer, outputting to this script's stdout
+  # Note: `cat` terminates on EOF, so will end when the tmux session is killed
+  cat "${buffer}" &
+
+  # Send container command to the new tmux session
+  tmux send-keys -t "${tmux_session}" "${container_command}" ENTER
 }
 
 kill_container_command () {
   echo "Killing container command..."
   tmux kill-session -t "${tmux_session}"
+  tmux_session=""
   echo "Container command killed!"
 }
 

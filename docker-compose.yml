@@ -37,12 +37,12 @@ services:
       arangodb:
         condition: service_started
   api:
-    image: api:1.3
+    image: api:1.4
     build:
       dockerfile: ./node-dev.dockerfile
     volumes:
       - ./api:/project
-    command: node -watch index.js
+    command: node --watch index.js
     # need to expose the debugger on 0.0.0.0 to be reachable from the host, but this
     # is a security concern (makes it reachable by anyone on your network), so don't
     # leave it active unless debugging for now
@@ -61,7 +61,7 @@ services:
       populate-arangodb:
         condition: service_completed_successfully
   ui:
-    image: ui:1.3
+    image: ui:1.4
     build:
       dockerfile: ./node-dev.dockerfile
     volumes:
