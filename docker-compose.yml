@@ -42,7 +42,11 @@ services:
       dockerfile: ./node-dev.dockerfile
     volumes:
       - ./api:/project
-    command: node --inspect="0.0.0.0:9229" --watch index.js
+    command: node -watch index.js
+    # need to expose the debugger on 0.0.0.0 to be reachable from the host, but this
+    # is a security concern (makes it reachable by anyone on your network), so don't
+    # leave it active unless debugging for now
+    #command: node --inspect="0.0.0.0:9229" --watch index.js
     environment:
       ## api project env vars
       PORT: 4000 # NOTE: the ui's graphql client is hardcoded to connect to the server via localhost:4000 right now
