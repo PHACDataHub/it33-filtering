@@ -21,3 +21,24 @@ dev containers will not mess with them.
 
 Currently, `./controls.json` is _not_ watched. To re-load the database with new data, the docker containers should be
 taken down (ctl + C in the attached terminal) and re-launched (`docker-compose up`).
+
+### Attaching a node debugger
+
+It will often be useful to attach a debugger to the `./api` server. The api docker container already has the appropriate port (9229)
+open, but it isn't running the debugger by default for security reasons (see note below). To enable the debugger, open `./docker-compose.yaml`
+and make the following edit:
+
+```yaml
+api:
+    ...
+    # command: node --watch index.js
+    command: node --inspect="0.0.0.0:9229" --watch index.js
+```
+
+Then (re)start the docker-compose dev containers. You can now connect to the api's debugger from your browser. This requires a browser with the V8
+JS engine (so not Firefox or Safari). I also recommend the "Node.js V8 --inspector Manager (NiM)" browser extension if available in your browser of choice.
+
+**Note:** `--inspect="0.0.0.0:9229"` is _not_ best practice. Serving on "0.0.0.0" will expose the debugger to your entire local network!
+Best practice would be to serve to serve only to the loopback "127.0.0.1" (`--inspect="127.0.0.1:9229"`), but that would be the
+_container's_ loopback and not reachable from your host! Fancier networking for our docker dev environment, to address this, is a TODO.
+For now, only enable the api debugger as needed (and preferably only when on a trusted network).
