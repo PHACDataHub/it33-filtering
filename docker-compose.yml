@@ -40,6 +40,7 @@ services:
     image: api:1.4
     build:
       dockerfile: ./node-dev.dockerfile
+      context: ./
     volumes:
       - ./api:/project
     command: node --watch index.js
@@ -64,6 +65,7 @@ services:
     image: ui:1.4
     build:
       dockerfile: ./node-dev.dockerfile
+      context: ./
     volumes:
       - ./ui:/project
     command: npm start
