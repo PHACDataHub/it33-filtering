@@ -37,12 +37,12 @@ services:
       arangodb:
         condition: service_started
   api:
-    image: api:1.4
+    image: api:1.5
     build:
       dockerfile: ./node-dev.dockerfile
       context: ./
     volumes:
-      - ./api:/project
+      - ./api:/home/node-dev/project
     command: node --watch index.js
     # need to expose the debugger on 0.0.0.0 to be reachable from the host, but this
     # is a security concern (makes it reachable by anyone on your network), so don't
@@ -62,12 +62,12 @@ services:
       populate-arangodb:
         condition: service_completed_successfully
   ui:
-    image: ui:1.4
+    image: ui:1.5
     build:
       dockerfile: ./node-dev.dockerfile
       context: ./
     volumes:
-      - ./ui:/project
+      - ./ui:/home/node-dev/project
     command: npm start
     environment:
       PORT: 3000 # set the react-scripts dev server port
