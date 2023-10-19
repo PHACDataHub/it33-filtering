@@ -70,11 +70,9 @@ services:
       - ./ui:/home/node-dev/project
     command: npm start
     environment:
-      # react-scripts build-inject env vars
+      # react-scripts build-injected env vars
+      REACT_APP_GQL_CONTAINER_NAME: "api" 
       REACT_APP_GQL_PORT: 4000
-      REACT_APP_CODESPACE_NAME: ${CODESPACE_NAME:-""} # for GitHub Codespace support
-      REACT_APP_CODESPACES_PORT_FORWARDING_DOMAIN: ${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-""}
-      REACT_APP_CODESPACES_TOKEN: ${GITHUB_TOKEN:-""}
       # react-scripts configuration https://create-react-app.dev/docs/advanced-configuration/
       PORT: 3000
       BROWSER: none
