@@ -73,7 +73,7 @@ services:
       # react-scripts build-inject env vars
       REACT_APP_LOCAL_GQL_URL: http://localhost:4000/graphql
       REACT_APP_IS_IN_CODESPACES: ${CODESPACES}
-      REACT_APP_CODESPACES_GQL_HOST: https://${CODESPACE_NAME}-4000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}/graphql
+      REACT_APP_CODESPACES_GQL_URL: https://${CODESPACE_NAME}-4000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}/graphql
       # react-scripts configuration https://create-react-app.dev/docs/advanced-configuration/
       PORT: 3000
       BROWSER: none

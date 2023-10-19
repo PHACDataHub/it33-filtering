@@ -5,11 +5,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 
+
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_IS_IN_CODESPACES ? process.env.REACT_APP_CODESPACES_GQL_HOST:  process.env.REACT_APP_LOCAL_GQL_URL,
+  uri: (() => {
+    if (process.env.REACT_APP_IS_IN_CODESPACES){
+      return process.env.REACT_APP_CODESPACES_GQL_URL;
+    } else if (process.env.REACT_APP_LOCAL_GQL_URL) {
+      return process.env.REACT_APP_LOCAL_GQL_URL
+    } else {
+      throw new Error(
+        "No GraphQL URL env var has been set! For local development, set `REACT_APP_LOCAL_GQL_URL`." + 
+        "For GitHub codespaces, set `REACT_APP_IS_IN_CODESPACES=true` and `REACT_APP_CODESPACES_GQL_URL`."
+      );
+    }
+  })(),
   cache: new InMemoryCache()
 });
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
