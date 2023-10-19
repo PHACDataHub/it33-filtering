@@ -3,22 +3,32 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 
+
+const get_apollo_http_link = () => {
+  if (process.env.REACT_APP_CODESPACE_NAME){
+    return createHttpLink({
+      uri: `https://${
+       process.env.REACT_APP_CODESPACE_NAME
+      }-${
+        process.env.REACT_APP_GQL_PORT
+      }.${
+        process.env.REACT_APP_CODESPACES_PORT_FORWARDING_DOMAIN
+      }/graphql `,
+      headers: {
+        "X-Github-Token": process.env.REACT_APP_CODESPACES_TOKEN
+      },
+    });
+  }
+  
+  return createHttpLink({
+    uri: `http://localhost:${process.env.REACT_APP_GQL_PORT}/graphql`,
+  });
+}
 
 const client = new ApolloClient({
-  uri: (() => {
-    if (process.env.REACT_APP_IS_IN_CODESPACES === "true"){
-      return process.env.REACT_APP_CODESPACES_GQL_URL;
-    } else if (process.env.REACT_APP_LOCAL_GQL_URL) {
-      return process.env.REACT_APP_LOCAL_GQL_URL
-    } else {
-      throw new Error(
-        "No GraphQL URL env var has been set! For local development, set `REACT_APP_LOCAL_GQL_URL`." + 
-        "For GitHub codespaces, set `REACT_APP_IS_IN_CODESPACES=true` and `REACT_APP_CODESPACES_GQL_URL`."
-      );
-    }
-  })(),
+  link: get_apollo_http_link(),
   cache: new InMemoryCache()
 });
 
