@@ -77,6 +77,3 @@ services:
     depends_on:
       api:
         condition: service_started
-    
-    
-    
