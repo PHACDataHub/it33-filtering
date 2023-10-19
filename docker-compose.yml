@@ -70,8 +70,13 @@ services:
       - ./ui:/home/node-dev/project
     command: npm start
     environment:
-      PORT: 3000 # set the react-scripts dev server port
-      BROWSER: none # stop react-scripts `start` from trying to open a browser session inside the container
+      # react-scripts build-inject env vars
+      REACT_APP_LOCAL_GQL_URL: http://localhost:4000/graphql
+      REACT_APP_IS_IN_CODESPACES: ${CODESPACES}
+      REACT_APP_CODESPACES_GQL_HOST: https://${CODESPACE_NAME}-4000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}/graphql
+      # react-scripts configuration https://create-react-app.dev/docs/advanced-configuration/
+      PORT: 3000
+      BROWSER: none
     ports:
       - 3000:3000
     depends_on:
