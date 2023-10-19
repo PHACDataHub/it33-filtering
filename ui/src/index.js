@@ -8,7 +8,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
   uri: (() => {
-    if (process.env.REACT_APP_IS_IN_CODESPACES){
+    if (process.env.REACT_APP_IS_IN_CODESPACES === "true"){
       return process.env.REACT_APP_CODESPACES_GQL_URL;
     } else if (process.env.REACT_APP_LOCAL_GQL_URL) {
       return process.env.REACT_APP_LOCAL_GQL_URL
