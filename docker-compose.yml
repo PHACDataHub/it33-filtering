@@ -9,9 +9,11 @@ services:
       - 8529:8529
   populate-arangodb:
     image: arangodb:3.11
+    volumes:
+        - ./controls.json:/etc/controls.json
     command: [
       "sh", "-c",
-      # retry `arangoimport` five times at 4 second intervals, to give 
+      # Retry `arangoimport` five times at 4 second intervals, to give 
       # the arangodb container time to prepare for connectons.
       # TODO: should be able to do this cleaner with a health/readiness
       # check on the arangodb container, but couldn't seem to write one 
@@ -31,43 +33,51 @@ services:
       || sleep 4; \
       done"
     ]
-    volumes:
-        - ./controls.json:/etc/controls.json
     depends_on:
       arangodb:
         condition: service_started
   api:
-    build: ./api
-    image: api:1
+    image: api:1.5
+    build:
+      dockerfile: ./node-dev.dockerfile
+      context: ./
+    volumes:
+      - ./api:/home/node-dev/project
+    command: node --watch index.js
+    # need to expose the debugger on 0.0.0.0 to be reachable from the host, but this
+    # is a security concern (makes it reachable by anyone on your network), so don't
+    # leave it active unless debugging for now
+    #command: node --inspect="0.0.0.0:9229" --watch index.js
     environment:
+      ## api project env vars
+      PORT: 4000 # NOTE: the ui's graphql client is hardcoded to connect to the server via localhost:4000 right now
       DB_URL: http://arangodb:8529
       DB_NAME: itsg33
       DB_USER: root
       DB_PASS: test123
-      PORT: 4000
-      DEBUG_PORT: 9229
     ports:
       - 4000:4000
       - 9229:9229
-    volumes:
-      - ./api:/home/api
     depends_on:
       populate-arangodb:
         condition: service_completed_successfully
   ui:
-    build: ./ui
-    image: ui:1
+    image: ui:1.5
+    build:
+      dockerfile: ./node-dev.dockerfile
+      context: ./
+    volumes:
+      - ./ui:/home/node-dev/project
+    command: npm start
     environment:
-      BROWSER: none
+      # react-scripts build-injected env vars
+      REACT_APP_GQL_CONTAINER_NAME: "api" 
+      REACT_APP_GQL_PORT: 4000
+      # react-scripts configuration https://create-react-app.dev/docs/advanced-configuration/
       PORT: 3000
-      API_PORT: 4000
+      BROWSER: none
     ports:
       - 3000:3000
-    volumes:
-      - ./ui:/home/ui
     depends_on:
       api:
         condition: service_started
-    
-    
-    
