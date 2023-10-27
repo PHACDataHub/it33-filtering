@@ -9,9 +9,7 @@ export function ResultsContainer({ numResults, filteredControls }) {
       <div className="results-container">
         {numResults > 0 ? (
           filteredControls.map((control, index) => (
-            <Link to={`/${control.control}`} >
               <Control key={`${control.id}-${index}`} control={control} />
-            </Link>
           ))
         ) : (
           <p>No results found</p>

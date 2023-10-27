@@ -73,7 +73,6 @@ function App() {
               numResults={numResults}
               filteredControls={filteredControls}
             />} />
-            <Route path="/:control" element={<Control />} />
           </Routes>
         </div>
 
