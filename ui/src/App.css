@@ -2,6 +2,15 @@
   max-width: 1250px;
   margin: 0 auto;
 }
+
+.App a{
+  text-decoration:  none;
+  color: inherit;
+}
+
+.App a:hover{
+  color: inherit;
+}
 .App-header {
   max-width: 1250px;
   display: flex;
