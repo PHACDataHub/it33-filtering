@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 export default function SearchInput({ onSearch, placeholder }) {
+    console.log("onSearch is a function:", typeof onSearch === "function");
+
     const [keyword, setKeyword] = useState("");
 
     const handleChange = (event) => {

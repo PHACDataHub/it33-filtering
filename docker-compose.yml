@@ -1,55 +1,83 @@
 version: "3.8"
 name: itsg
 services:
-  # proxies localhost:3000 to containers based on rules in envoy.yaml
-  envoy:
-    image: envoyproxy/envoy-distroless-dev
-    entrypoint: envoy
-    command: [ "-l", "warn", "-c", "/etc/envoy.yaml", "--service-cluster", "envoy"]
-    volumes:
-      - ./envoy.yaml:/etc/envoy.yaml # Envoy configuration
-    expose:
-      - "3000" # Forward to proxied apps
-      - "3001" # Envoy admin page
-    ports:
-      - "3000:3000"
-      - "3001:3001"
   arangodb:
     image: arangodb:3.11
     environment:
       ARANGO_ROOT_PASSWORD: test123
     ports:
       - 8529:8529
-  ui:
-    image: node:alpine
-    working_dir: /home/node/ui
-    entrypoint: npm
-    command: ["run", "start"]
-    ports:
-      - 3000
-    environment:
-      BROWSER: none
+  populate-arangodb:
+    image: arangodb:3.11
     volumes:
-    - type: bind
-      source: ./ui
-      target: /home/node/ui
+        - ./controls.json:/etc/controls.json
+    command: [
+      "sh", "-c",
+      # Retry `arangoimport` five times at 4 second intervals, to give 
+      # the arangodb container time to prepare for connectons.
+      # TODO: should be able to do this cleaner with a health/readiness
+      # check on the arangodb container, but couldn't seem to write one 
+      "for i in 1 2 3 4 5; \
+      do \
+      arangoimport \
+      --server.endpoint http+tcp://arangodb:8529 \
+      --server.username root \
+      --server.password test123 \
+      --server.database itsg33 \
+      --create-database true \
+      --file etc/controls.json \
+      --collection controls \
+      --create-collection true \
+      --overwrite true \
+      && break \
+      || sleep 4; \
+      done"
+    ]
+    depends_on:
+      arangodb:
+        condition: service_started
   api:
-    build: api
-    # Auto reload when files change with watch mode
+    image: api:1.5
+    build:
+      dockerfile: ./node-dev.dockerfile
+      context: ./
+    volumes:
+      - ./api:/home/node-dev/project
     command: node --watch index.js
+    # need to expose the debugger on 0.0.0.0 to be reachable from the host, but this
+    # is a security concern (makes it reachable by anyone on your network), so don't
+    # leave it active unless debugging for now
+    #command: node --inspect="0.0.0.0:9229" --watch index.js
     environment:
+      ## api project env vars
+      PORT: 4000 # NOTE: the ui's graphql client is hardcoded to connect to the server via localhost:4000 right now
       DB_URL: http://arangodb:8529
       DB_NAME: itsg33
       DB_USER: root
       DB_PASS: test123
-      PORT: 4000
     ports:
-      - 4000
+      - 4000:4000
+      - 9229:9229
+    depends_on:
+      populate-arangodb:
+        condition: service_completed_successfully
+  ui:
+    image: ui:1.5
+    build:
+      dockerfile: ./node-dev.dockerfile
+      context: ./
     volumes:
-    - type: bind
-      source: ./api
-      target: /api
-    
-    
-    
-    
+      - ./ui:/home/node-dev/project
+    command: npm start
+    environment:
+      # react-scripts build-injected env vars
+      REACT_APP_GQL_CONTAINER_NAME: "api" 
+      REACT_APP_GQL_PORT: 4000
+      # react-scripts configuration https://create-react-app.dev/docs/advanced-configuration/
+      PORT: 3000
+      BROWSER: none
+    ports:
+      - 3000:3000
+    depends_on:
+      api:
+        condition: service_started
