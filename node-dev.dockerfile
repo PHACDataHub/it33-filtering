@@ -31,6 +31,7 @@ VOLUME /home/node-dev/project/node_modules
 # Uses inotify-tools to watch for changes to package-lock.json, kills and restarts the container
 # command as needed. Note that it's 
 COPY --chown=node-dev ./node-dev-entrypoint.sh ../entrypoint.sh
+RUN chmod 777 ../entrypoint.sh
 # When this image is built on windows, the entrypoint's newlines tend to get mangled.
 # `dos2unix` fixes that if it's the case, harmless to run if not
 RUN dos2unix ../entrypoint.sh
