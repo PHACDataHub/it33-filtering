@@ -15,7 +15,28 @@ import Control from "./Components/Control";
 function App() {
   const [selectedKeyword, setSelectedKeyword] = useState("");
   const [selectedAllocation, setSelectedAllocation] = useState("");
-  const { loading, error, data } = useQuery(GET_ALL_CONTROLS);
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const { loading, error, data, refetch } = useQuery(GET_ALL_CONTROLS, {
+    context: {
+      headers: {
+        'Accept-Language': selectedLanguage,
+      },
+    },
+    fetchPolicy: 'network-only',
+  });
+
+  const handleLanguageSelect = async () => {
+    const newLanguage = selectedLanguage === 'en' ? 'fr' : 'en';
+    setSelectedLanguage(newLanguage);
+
+    await refetch({
+      context: {
+        headers: {
+          'Accept-Language': newLanguage,
+        },
+      },
+    });
+  };
 
   const handleKeywordSelect = (keyword) => {
     setSelectedKeyword(keyword);
@@ -25,64 +46,81 @@ function App() {
     setSelectedAllocation(allocation);
   };
 
-  if (loading) return "Loading...";
-  if (error) return <pre>{error.message}</pre>;
+  if (loading) {
+    console.log('Loading...');
+    return "Loading...";
+  }
 
-  const filteredControls = data.controlAll.filter((control) => {
-    const isKeywordMatch =
-      control.control.toLowerCase().includes(selectedKeyword) ||
-      control.title.toLowerCase().includes(selectedKeyword);
+  if (error) {
+    console.error('Error:', error);
+    return <pre>{error.message}</pre>;
+  }
 
-    if (selectedAllocation === "") {
-      return isKeywordMatch;
-    }
+  console.log('Data:', data);
 
-    const allocationValue = control.allocation[selectedAllocation];
-    return isKeywordMatch && allocationValue;
-  });
+  // Check if data.controlAll is defined before filtering.
+  const filteredControls =
+    data && data.controlAll
+      ? data.controlAll.filter((control) => {
+        const isKeywordMatch =
+          control.control.toLowerCase().includes(selectedKeyword) ||
+          control.title.toLowerCase().includes(selectedKeyword);
+
+        if (selectedAllocation === "") {
+          return isKeywordMatch;
+        }
+
+        const allocationValue = control.allocation[selectedAllocation];
+        return isKeywordMatch && allocationValue;
+      })
+      : [];
 
   const numResults = filteredControls.length;
 
   return (
-      <div className="App">
-        <header className="App-header">
-          <div className="header-sig">
-            <PhacSignature language="fr" />
-          </div>
-          <Link to={"/"}> <h1>DSCO ITSG23 Filter</h1></Link>
-
-        </header>
-
-        <section className="alert alert-info">
-          <h3>This is a work in progress.</h3>
-          <p>Information may be incorrect or inaccurate.</p>
-        </section>
-
-        <div className="getData">
-          <SearchContainer
-            onSearch={handleKeywordSelect}
-            onSelect={handleAllocationSelect}
-          >
-            <SearchInput />
-            <AllocationList />
-          </SearchContainer>
-
-
-          <Routes>
-            <Route path="/" element={<ResultsContainer
-              numResults={numResults}
-              filteredControls={filteredControls}
-            />} />
-          </Routes>
+    <div className="App">
+      <header className="App-header">
+        <div className="header-sig">
+          <PhacSignature language="fr" />
         </div>
+        <Link to={"/"}> <h1>DSCO ITSG23 Filter</h1></Link>
 
-        <footer>
-          <div className="footer-wm">
-            <Wordmark textColor="black" />
-          </div>
-        </footer>
+      </header>
 
+      <section className="alert alert-info">
+        <h3>This is a work in progress.</h3>
+        <p>Information may be incorrect or inaccurate.</p>
+      </section>
+
+      <div className="getData">
+        <SearchContainer
+          onSearch={handleKeywordSelect}
+          onSelect={handleAllocationSelect}
+        >
+          <SearchInput />
+          <AllocationList />
+        </SearchContainer>
+
+        <button onClick={handleLanguageSelect}>
+          {selectedLanguage === 'fr' ? 'English' : 'Français'}
+        </button>
+
+
+        <Routes>
+          <Route path="/" element={<ResultsContainer
+            numResults={numResults}
+            filteredControls={filteredControls}
+          />} />
+        </Routes>
       </div>
+
+      <footer>
+        <div className="footer-wm">
+          <Wordmark textColor="black" />
+        </div>
+      </footer>
+
+    </div>
   );
 }
 
