@@ -87,7 +87,7 @@ function App() {
           <button className="lang-button" onClick={handleLanguageSelect}>
             {selectedLanguage === 'fr' ? 'English' : 'Français'}
           </button>
-          <Link to={"/"}> <h1>DSCO ITSG23 Filter</h1></Link>
+          <Link to={"/"}> <h1>DSCO ITSG33 Filter</h1></Link>
         </div>
       </header>
 
