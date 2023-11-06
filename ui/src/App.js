@@ -29,7 +29,7 @@ function App() {
     const newLanguage = selectedLanguage === 'en' ? 'fr' : 'en';
     setSelectedLanguage(newLanguage);
 
-    await refetch({
+    refetch({
       context: {
         headers: {
           'Accept-Language': newLanguage,
