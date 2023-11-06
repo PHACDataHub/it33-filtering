@@ -83,8 +83,12 @@ function App() {
         <div className="header-sig">
           <PhacSignature language="fr" />
         </div>
-        <Link to={"/"}> <h1>DSCO ITSG23 Filter</h1></Link>
-
+        <div className="title-langselect">
+          <button className="lang-button" onClick={handleLanguageSelect}>
+            {selectedLanguage === 'fr' ? 'English' : 'Français'}
+          </button>
+          <Link to={"/"}> <h1>DSCO ITSG23 Filter</h1></Link>
+        </div>
       </header>
 
       <section className="alert alert-info">
@@ -100,11 +104,6 @@ function App() {
           <SearchInput />
           <AllocationList />
         </SearchContainer>
-
-        <button onClick={handleLanguageSelect}>
-          {selectedLanguage === 'fr' ? 'English' : 'Français'}
-        </button>
-
 
         <Routes>
           <Route path="/" element={<ResultsContainer

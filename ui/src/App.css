@@ -7,7 +7,12 @@
   text-decoration:  none;
   color: inherit;
 }
-
+.lang-button{
+  border: none;
+  background-color: inherit;
+  float: right;
+  color:#003f86;
+}
 .App a:hover{
   color: inherit;
 }
