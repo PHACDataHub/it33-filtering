@@ -15,7 +15,7 @@ import Control from "./Components/Control";
 function App() {
   const [selectedKeyword, setSelectedKeyword] = useState("");
   const [selectedAllocation, setSelectedAllocation] = useState("");
-  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
   const { loading, error, data, refetch } = useQuery(GET_ALL_CONTROLS, {
     context: {
       headers: {
@@ -23,19 +23,28 @@ function App() {
       },
     },
     fetchPolicy: 'network-only',
-  });
+  })
+
+  console.log('Selected Lang:', selectedLanguage);
 
   const handleLanguageSelect = async () => {
     const newLanguage = selectedLanguage === 'en' ? 'fr' : 'en';
     setSelectedLanguage(newLanguage);
 
-    refetch({
-      context: {
-        headers: {
-          'Accept-Language': newLanguage,
+    try {
+      await refetch({
+        context: {
+          headers: {
+            'Accept-Language': newLanguage,
+          },
         },
-      },
-    });
+      });
+
+      console.log('Language changed:', newLanguage);
+      console.log('new data:', data);
+    } catch (error) {
+      console.error('Error during refetch:', error);
+    }
   };
 
   const handleKeywordSelect = (keyword) => {
@@ -53,10 +62,9 @@ function App() {
 
   if (error) {
     console.error('Error:', error);
+    console.error('Error Stack Trace:', error.stack); // Log the stack trace for more details
     return <pre>{error.message}</pre>;
   }
-
-  console.log('Data:', data);
 
   // Check if data.controlAll is defined before filtering.
   const filteredControls =
@@ -76,6 +84,7 @@ function App() {
       : [];
 
   const numResults = filteredControls.length;
+  console.log('Data:', filteredControls);
 
   return (
     <div className="App">
