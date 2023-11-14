@@ -9,7 +9,6 @@ import { PhacSignature } from "./Components/PhacSignature.js";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_CONTROLS } from "./graphql";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Control from "./Components/Control";
 
 
 function App() {
@@ -27,24 +26,11 @@ function App() {
 
   console.log('Selected Lang:', selectedLanguage);
 
-  const handleLanguageSelect = async () => {
+  const handleLanguageSelect = () => {
     const newLanguage = selectedLanguage === 'en' ? 'fr' : 'en';
     setSelectedLanguage(newLanguage);
 
-    try {
-      await refetch({
-        context: {
-          headers: {
-            'Accept-Language': newLanguage,
-          },
-        },
-      });
-
-      console.log('Language changed:', newLanguage);
-      console.log('new data:', data);
-    } catch (error) {
-      console.error('Error during refetch:', error);
-    }
+   
   };
 
   const handleKeywordSelect = (keyword) => {
@@ -62,7 +48,6 @@ function App() {
 
   if (error) {
     console.error('Error:', error);
-    console.error('Error Stack Trace:', error.stack); // Log the stack trace for more details
     return <pre>{error.message}</pre>;
   }
 
