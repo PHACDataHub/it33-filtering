@@ -15,7 +15,7 @@ function App() {
   const [selectedKeyword, setSelectedKeyword] = useState("");
   const [selectedAllocation, setSelectedAllocation] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
-  const { loading, error, data, refetch } = useQuery(GET_ALL_CONTROLS, {
+  const { loading, error, data } = useQuery(GET_ALL_CONTROLS, {
     context: {
       headers: {
         'Accept-Language': selectedLanguage,
