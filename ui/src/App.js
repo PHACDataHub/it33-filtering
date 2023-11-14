@@ -30,7 +30,7 @@ function App() {
     const newLanguage = selectedLanguage === 'en' ? 'fr' : 'en';
     setSelectedLanguage(newLanguage);
 
-   
+
   };
 
   const handleKeywordSelect = (keyword) => {
@@ -77,12 +77,8 @@ function App() {
         <div className="header-sig">
           <PhacSignature language="fr" />
         </div>
-        <div className="title-langselect">
-          <button className="lang-button" onClick={handleLanguageSelect}>
-            {selectedLanguage === 'fr' ? 'English' : 'Français'}
-          </button>
-          <Link to={"/"}> <h1>DSCO ITSG33 Filter</h1></Link>
-        </div>
+        <Link to={"/"}> <h1>DSCO ITSG33 Filter</h1></Link>
+
       </header>
 
       <section className="alert alert-info">
@@ -99,12 +95,19 @@ function App() {
           <AllocationList />
         </SearchContainer>
 
+
         <Routes>
           <Route path="/" element={<ResultsContainer
             numResults={numResults}
             filteredControls={filteredControls}
           />} />
         </Routes>
+      </div>
+      <div className="title-langselect">
+        <button className="lang-button" onClick={handleLanguageSelect}>
+          {selectedLanguage === 'fr' ? 'English' : 'Français'}
+        </button>
+        <Link to={"/"}> <h1>DSCO ITSG33 Filter</h1></Link>
       </div>
 
       <footer>
@@ -113,7 +116,7 @@ function App() {
         </div>
       </footer>
 
-    </div>
+    </div >
   );
 }
 
