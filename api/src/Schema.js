@@ -14,7 +14,8 @@ const typeDefinitions = /* GraphQL */ `
     definition: String!
     family: String!
     id: String!
-    enhancement: String!
+    class: String !
+    enhancement: String
     allocation: Allocation!
     additionalGuidance: String!
   }
@@ -45,24 +46,28 @@ const resolvers = {
     }
   },
   Query: {
-    control: async (_root, { id }, { query }) => {
+      controlAll: async (_root, _, { query, request }) => {
+          const cursor = await query`
+          FOR ctl IN controls
+          LET col1=(UNSET(ctl, ["class","title","definition","additionalGuidance"]))
+          LET col2= ({class:TRANSLATE(${request.language},ctl.class,"Not Available"),title:TRANSLATE(${request.language},ctl.title,"Not Available"), definition:TRANSLATE(${request.language},ctl.definition,"Not Available"), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance,"Not Available") })
+          RETURN MERGE(col1,col2)
+        `;
+          const controls = await cursor.all();
+          return controls;
+      },
+      control: async (_root, { id }, { query, request }) => {
       const cursor = await query`
-      FOR ctl IN controls
-      FILTER CONTAINS(ctl.control, ${id})  // Modify the filter criterion here
-      RETURN DISTINCT ctl
+            FOR ctl IN controls
+            FILTER CONTAINS(ctl.control, ${id})  // Modify the filter criterion here
+            LET col1=(UNSET(ctl, ["class","title","definition","additionalGuidance"]))
+            LET col2= ({class:TRANSLATE(${request.language},ctl.class,"Not Available"),title:TRANSLATE(${request.language},ctl.title,"Not Available"), definition:TRANSLATE(${request.language},ctl.definition,"Not Available"), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance,"Not Available") })
+            RETURN MERGE(col1,col2)
       `;
       const control = await cursor.all();
       return control[0];
     },
-    controlAll: async (_root, _args, { query }) => {
-      const cursor = await query`
-          FOR ctl IN controls
-          RETURN DISTINCT ctl
-        `;
-      const controls = await cursor.all();
-      return controls;
-    },
-    controlDrop: async (_root, { allocation }, { query }) => {
+    controlDrop: async (_, { allocation }, { query }) => {
       // Apply the filter logic based on the "allocation" argument
       const cursor = await query`
         FOR ctl IN controls
