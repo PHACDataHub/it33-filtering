@@ -1,14 +1,13 @@
 import { gql } from "@apollo/client";
 
-
 export const GET_ALL_CONTROLS = gql`
-  query {
-    controlAll {
+  query GetAllControls($control: String!) {
+    control(control: $control) {
+      id
       control
       title
       definition
       family
-      id
       additionalGuidance
       allocation {
         department
@@ -28,4 +27,4 @@ export const GET_ALL_CONTROLS = gql`
       }
     }
   }
-`
+`;

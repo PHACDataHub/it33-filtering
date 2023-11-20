@@ -12,17 +12,20 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 
 function App() {
-  const [selectedKeyword, setSelectedKeyword] = useState("");
+  const [selectedKeyword, setSelectedKeyword] = useState("AC-1");
   const [selectedAllocation, setSelectedAllocation] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
   const { loading, error, data } = useQuery(GET_ALL_CONTROLS, {
+    variables: { control: selectedKeyword },
     context: {
       headers: {
         'Accept-Language': selectedLanguage,
       },
     },
     fetchPolicy: 'network-only',
-  })
+  });
+
+
 
   console.log('Selected Lang:', selectedLanguage);
 
@@ -51,25 +54,10 @@ function App() {
     return <pre>{error.message}</pre>;
   }
 
-  // Check if data.controlAll is defined before filtering.
-  const filteredControls =
-    data && data.controlAll
-      ? data.controlAll.filter((control) => {
-        const isKeywordMatch =
-          control.control.toLowerCase().includes(selectedKeyword) ||
-          control.title.toLowerCase().includes(selectedKeyword);
 
-        if (selectedAllocation === "") {
-          return isKeywordMatch;
-        }
 
-        const allocationValue = control.allocation[selectedAllocation];
-        return isKeywordMatch && allocationValue;
-      })
-      : [];
-
-  const numResults = filteredControls.length;
-  console.log('Data:', filteredControls);
+  const numResults = data && data.control ? data.control.length : 0;
+  console.log('Data:', data.control);
 
   return (
     <div className="App">
@@ -103,10 +91,10 @@ function App() {
       <Routes>
         <Route path="/" element={<ResultsContainer
           numResults={numResults}
-          filteredControls={filteredControls}
+          data={data.control} // Pass the controls array to ResultsContainer
         />} />
       </Routes>
-      
+
       <footer>
         <div className="footer-wm">
           <Wordmark textColor="black" />
