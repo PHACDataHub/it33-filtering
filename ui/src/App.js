@@ -10,9 +10,8 @@ import { useQuery } from "@apollo/client";
 import { GET_ALL_CONTROLS } from "./graphql";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
-
 function App() {
-  const [selectedKeyword, setSelectedKeyword] = useState("AC-1");
+  const [selectedKeyword, setSelectedKeyword] = useState("");
   const [selectedAllocation, setSelectedAllocation] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
   const { loading, error, data } = useQuery(GET_ALL_CONTROLS, {
@@ -25,15 +24,9 @@ function App() {
     fetchPolicy: 'network-only',
   });
 
-
-
-  console.log('Selected Lang:', selectedLanguage);
-
   const handleLanguageSelect = () => {
     const newLanguage = selectedLanguage === 'en' ? 'fr' : 'en';
     setSelectedLanguage(newLanguage);
-
-
   };
 
   const handleKeywordSelect = (keyword) => {
@@ -44,20 +37,28 @@ function App() {
     setSelectedAllocation(allocation);
   };
 
-  if (loading) {
-    console.log('Loading...');
-    return "Loading...";
-  }
+  const renderContent = () => {
+    if (loading) {
+      return "Loading..."; // You can replace this with a loading spinner or other UI
+    }
 
-  if (error) {
-    console.error('Error:', error);
-    return <pre>{error.message}</pre>;
-  }
+    if (error) {
+      console.error('Error:', error);
+      return <pre>{error.message}</pre>;
+    }
 
-
-
-  const numResults = data && data.control ? data.control.length : 0;
-  console.log('Data:', data.control);
+    return (
+      <div className="getData">
+        <SearchContainer
+          onSearch={handleKeywordSelect}
+          onSelect={handleAllocationSelect}
+        >
+          <SearchInput />
+          <AllocationList />
+        </SearchContainer>
+      </div>
+    );
+  };
 
   return (
     <div className="App">
@@ -78,20 +79,12 @@ function App() {
         <p>Information may be incorrect or inaccurate.</p>
       </section>
 
-      <div className="getData">
-        <SearchContainer
-          onSearch={handleKeywordSelect}
-          onSelect={handleAllocationSelect}
-        >
-          <SearchInput />
-          <AllocationList />
-        </SearchContainer>
-      </div>
+      {renderContent()}
 
       <Routes>
         <Route path="/" element={<ResultsContainer
-          numResults={numResults}
-          data={data.control} // Pass the controls array to ResultsContainer
+          numResults={data?.control?.length || 0}
+          data={data?.control || []}
         />} />
       </Routes>
 
@@ -100,8 +93,7 @@ function App() {
           <Wordmark textColor="black" />
         </div>
       </footer>
-
-    </div >
+    </div>
   );
 }
 
