@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchContainer from "./Components/SearchContainer";
 import SearchInput from "./Components/SearchInput";
 import AllocationList from "./Components/AllocationList";
@@ -14,6 +14,7 @@ function App() {
   const [selectedKeyword, setSelectedKeyword] = useState("");
   const [selectedAllocation, setSelectedAllocation] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const [filteredData, setFilteredData] = useState([]);
   const { loading, error, data } = useQuery(GET_ALL_CONTROLS, {
     variables: { control: selectedKeyword },
     context: {
@@ -23,6 +24,17 @@ function App() {
     },
     fetchPolicy: 'network-only',
   });
+
+  useEffect(() => {
+    // Update filteredData when data or selectedAllocation changes
+    if (data && data.control) {
+      const filteredControls = selectedAllocation
+        ? data.control.filter(control => control.allocation[selectedAllocation])
+        : data.control;
+
+      setFilteredData(filteredControls);
+    }
+  }, [data, selectedAllocation]);
 
   const handleLanguageSelect = () => {
     const newLanguage = selectedLanguage === 'en' ? 'fr' : 'en';
@@ -35,6 +47,12 @@ function App() {
 
   const handleAllocationSelect = (allocation) => {
     setSelectedAllocation(allocation);
+  };
+
+  const handleClearFilters = () => {
+    // Clear all filters by resetting state variables
+    setSelectedKeyword("");
+    setSelectedAllocation("");
   };
 
   const renderContent = () => {
@@ -56,6 +74,7 @@ function App() {
           <SearchInput />
           <AllocationList />
         </SearchContainer>
+        <button className="clear-btn" onClick={handleClearFilters}>Clear Filters</button>
       </div>
     );
   };
@@ -83,8 +102,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<ResultsContainer
-          numResults={data?.control?.length || 0}
-          data={data?.control || []}
+          numResults={filteredData.length}
+          data={filteredData}
         />} />
       </Routes>
 

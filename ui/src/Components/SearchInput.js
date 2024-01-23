@@ -1,30 +1,28 @@
 import React, { useState } from "react";
 
 export default function SearchInput({ onSearch, placeholder }) {
-    console.log("onSearch is a function:", typeof onSearch === "function");
-
     const [keyword, setKeyword] = useState("");
+    const [displayedPlaceholder, setDisplayedPlaceholder] = useState(placeholder);
 
     const handleChange = (event) => {
         const newKeyword = event.target.value;
         setKeyword(newKeyword.toUpperCase());
     };
+
     const handleSubmit = (event) => {
-        event.preventDefault(); // Prevent the default form submission behavior
+        event.preventDefault();
         onSearch(keyword.toUpperCase());
+        setDisplayedPlaceholder(keyword.toUpperCase());
     };
+
     return (
         <form onSubmit={handleSubmit}>
             <input
-
                 type="text"
                 value={keyword}
                 onChange={handleChange}
-                placeholder={placeholder}
+                placeholder={displayedPlaceholder}
             />
         </form>
     );
 }
-
-
-

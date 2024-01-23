@@ -5,7 +5,6 @@ const typeDefinitions = /* GraphQL */ `
   type Query {
     control(control: String!): [Control]
     controlDrop(allocation: String!): [Control]
-    controlAll: [Control]
   }
 
   type Control {
@@ -46,16 +45,6 @@ const resolvers = {
     }
   },
   Query: {
-    controlAll: async (_root, _, { query, request }) => {
-      const cursor = await query`
-          FOR ctl IN controls
-          LET col1=(UNSET(ctl, ["class","title","definition","additionalGuidance"]))
-          LET col2= ({class:TRANSLATE(${request.language},ctl.class,"Not Available"),title:TRANSLATE(${request.language},ctl.title,"Not Available"), definition:TRANSLATE(${request.language},ctl.definition,"Not Available"), additionalGuidance:TRANSLATE(${request.language},ctl.additionalGuidance,"Not Available") })
-          RETURN MERGE(col1,col2)
-        `;
-      const controls = await cursor.all();
-      return controls;
-    },
     control: async (_root, { control }, { query, request }) => {
       try {
         console.log('Received control:', control);
@@ -81,6 +70,7 @@ const resolvers = {
         }
 
         const controls = await cursor.all();
+        
         console.log('Returned controls:', controls);
 
         return controls;
